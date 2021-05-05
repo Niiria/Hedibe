@@ -1,35 +1,28 @@
 ﻿@using Hedibe.Controllers
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container-fluid m-0">
-        
-        <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index"><img class="logo" src="~/assets/Logo.png" alt="Logo" /> </a>
+<nav class="navbar navbar-background-gradient bg-white  navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow ">
+    <div class="container-fluid m-0 ">
+        <a class="mr-2 text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+            @if (ViewContext.HttpContext.Request.Path == "/")
+            {
+                <img width="48" src="~/assets/Homepage_active.png" alt="home">
+            }
+            else
+            {
+                <img width="48" src="~/assets/Homepage.png" alt="home">
+            }
+        </a>
+        <a class="navbar-brand m-0 " asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/Logo.png" alt="Logo"  width="150" /> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1 d-flex align-items-center ">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
-                        @if (ViewContext.HttpContext.Request.Path == "/")
-                        {
-                            <img class="homepage-icon" src="~/assets/Homepage_active.png" alt="home">
-                        }
-                        else
-                        {
-                            <img class="homepage-icon" src="~/assets/Homepage.png" alt="home">
-                        }
-                    </a>
-                </li>
+            <ul class="navbar-nav flex-grow-1 d-flex align-items-center justify-content-center ">
+               
                 @{if (AuthController.LoggedUser == null)
                     {
-                        <li class="nav-item ml-sm-auto">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
-                        </li>
+                        
                     }
                     else
                     {
@@ -39,7 +32,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item ml-sm-auto">
+                        
+                    }
+                }
+            </ul>
+            <ul class="navbar-nav d-flex align-items-center justify-content-end ">
+               
+                @{if (AuthController.LoggedUser == null)
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        
+                        <li class="nav-item ">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a>
                         </li>
                     }

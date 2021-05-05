@@ -1,8 +1,42 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="text-center w-100 h-100  flex-grow-1  pt-20-p ">
+    
+    <h1 id="home1" class="position-relative mb-5 font-dancing-script home-h1-custom  ">Welcome!</h1>
+    <p id="home2" class="position-relative mb-0"> Let us help you with your diet! 😋</p>
+    <p id="home3" class="position-relative mb-0">Live better feel better!</p>
+    <div class="position-relative mt-5" id="home4">
+        <h4>Join us today for FREE</h4>
+        <form class="row align-content-between justify-content-center w-100">
+            <button id="home-btn1" class="btn btn-primary col-3 col-lg-2 mx-2" asp-controller="Auth" asp-action="Login">Login</button>
+            <button id="home-btn2"class="btn btn-primary col-3 col-lg-2 mx-2" asp-controller="Auth" asp-action="Register" >Register</button>
+        </form>
+        
+    </div>
+ 
+</section>
+
+@section scripts{
+<script>
+    $(document).ready(function () {
+        $("#home1")
+            .css({ opacity: '0', top: '-100px' })
+            .animate({ top: '0px', opacity: '1' }, 1600);
+        $("#home2")
+            .css({ opacity: '0', top: '-100px' })
+            .animate({ top: '0px', opacity: '1' }, 1400);
+        $("#home3")
+            .css({ opacity: '0', top: '-100px' })
+            .animate({ top: '0px', opacity: '1' }, 1200);
+        $("#home4")
+            .css({ opacity: '0', top: '-100px' })
+            .animate({ top: '0px', opacity: '1' }, 1000);
+        $("#home-btn1").hide().delay(1600).fadeIn(1000);
+        $("#home-btn2").hide().delay(1600).fadeIn(1000);
+ 
+
+    });
+</script>
+}
