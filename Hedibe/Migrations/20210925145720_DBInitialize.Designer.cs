@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hedibe.Migrations
 {
-    [DbContext(typeof(SqlContext))]
-    [Migration("20210925134727_DBInitialize")]
+    [DbContext(typeof(HedibeDbContext))]
+    [Migration("20210925145720_DBInitialize")]
     partial class DBInitialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

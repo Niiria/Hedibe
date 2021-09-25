@@ -1,5 +1,6 @@
 using Hedibe.Data;
 using Hedibe.Models;
+using Hedibe.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,9 +28,11 @@ namespace Hedibe
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUserContextService, UserContextService>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            
 
-            services.AddDbContext<SqlContext>(option =>
+            services.AddDbContext<HedibeDbContext>(option =>
               option.UseSqlServer(Configuration.GetConnectionString("SQL")));
 
             services.AddControllersWithViews();

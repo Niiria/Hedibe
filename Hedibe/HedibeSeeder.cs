@@ -11,9 +11,9 @@ namespace Hedibe
     
     public class HedibeSeeder
     {
-        private readonly SqlContext _dbContext;
+        private readonly HedibeDbContext _dbContext;
         private readonly IPasswordHasher<User> _passwordHasher;
-        public HedibeSeeder(SqlContext dbContext, IPasswordHasher<User> passwordHasher)
+        public HedibeSeeder(HedibeDbContext dbContext, IPasswordHasher<User> passwordHasher)
         {
             _dbContext = dbContext;
             _passwordHasher = passwordHasher;

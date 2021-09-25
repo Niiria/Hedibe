@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hedibe.Data
 {
-    public class SqlContext : DbContext
+    public class HedibeDbContext : DbContext
     {
-        public SqlContext(DbContextOptions<SqlContext> options) : base(options)
+        public HedibeDbContext(DbContextOptions<HedibeDbContext> options) : base(options)
         {
         }
 
