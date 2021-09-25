@@ -8,12 +8,15 @@ namespace Hedibe.Models
 {
     public class User
     {
-        [Key, Required]
         public int Id { get; set; }
-        [Required, MaxLength(64)]
         public string Username { get; set; }
-        [Required, MaxLength(512)]
-        public string Password { get; set; }
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public string PasswordHash { get; set; }
+        public string Email { get; set; }
+        public int RoleId { get; set; }
+        public virtual Role Role { get; set; }
+        public virtual ICollection<Meal> Meals { get; set; }
+        public virtual ICollection<ShoppingList> ShoppingLists { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+
     }
 }
