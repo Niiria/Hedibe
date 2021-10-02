@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Hedibe.Entities.Product>
+@{
+    ViewData["Title"] = "Products";
+
+    Pager pager = new Pager();
+    int pageNumber = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNumber = pager.CurrentPage;
+    }
+}
+<section>
+    <div class="text-center">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+  <table class="table text-center">
+  <thead>
+      <tr>
+          <th scope="col" style="width: 25%">
+              @Html.DisplayNameFor(model => model.Name)
+          </th>
+          <th scope="col" style="width: 17%">
+              @Html.DisplayNameFor(model => model.Calories)
+          </th>
+          <th scope="col" style="width: 17%">
+              @Html.DisplayNameFor(model => model.TotalFat)
+          </th>
+          <th scope="col" style="width: 17%">
+              @Html.DisplayNameFor(model => model.Protein)
+          </th>
+          <th scope="col" style="width: 17%">
+              @Html.DisplayNameFor(model => model.Carbohydrate)
+          </th>
+          <th scope="col" style="width: 7%">
+              @Html.DisplayNameFor(model => model.Verified)
+          </th>
+      </tr>
+  </thead>
+  <tbody>
+      @foreach (var item in Model)
+      {
+      <tr>
+          <td>
+              @Html.DisplayFor(model => item.Name)
+          </td>
+          <td>
+              @Html.DisplayFor(model => item.Calories)
+          </td>
+          <td>
+              @Html.DisplayFor(model => item.TotalFat)
+          </td>
+          <td>
+              @Html.DisplayFor(model => item.Protein)
+          </td>
+          <td>
+              @Html.DisplayFor(model => item.Carbohydrate)
+          </td>
+          <td>
+              @Html.DisplayFor(model => item.Verified)
+          </td>
+      </tr>
+      }
+
+  </tbody>
+</table>
+  <div>
+      <partial name="_pager" model="@pager" />
+  </div>
+   
+</section>
+
+
+

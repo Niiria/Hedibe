@@ -1,0 +1,15 @@
+﻿<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" asp-action="Render" asp-route-id="_Organization">Organization of the academic year</a> |
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" asp-action="Render" asp-route-id="_Examination">Examination period</a> |
+            </li>
+        </ul>
+    </div>
+    <div>
+        <partial name="@ViewBag.Render" />
+    </div>
+</div>

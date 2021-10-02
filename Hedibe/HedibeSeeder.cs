@@ -1,4 +1,4 @@
-﻿using Hedibe.Data;
+﻿using Hedibe.Entities;
 using Hedibe.Models;
 using Microsoft.AspNetCore.Identity;
 using System;

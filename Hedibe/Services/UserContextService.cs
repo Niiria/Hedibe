@@ -5,21 +5,29 @@ namespace Hedibe.Services
 {
     public interface IUserContextService
     {
-        LoggedUser GetLoggedUser();
         void LoginUser(LoggedUser model);
         void LogoutUser();
         string GetLoggedUserRole();
+        bool CheckLoggedUser();
+        string GetUsername();
+        string GetRole();
     }
 
     public class UserContextService : IUserContextService
     {
         private static LoggedUser LoggedUser = new();
 
-        public LoggedUser GetLoggedUser()
+        public string GetUsername()
         {
             if (LoggedUser.Username is null) return null;
 
-            return LoggedUser;
+            return LoggedUser.Username;
+        }
+        public string GetRole()
+        {
+            if (LoggedUser.Role.Name is null) return null;
+
+            return LoggedUser.Role.Name;
         }
         public void LoginUser(LoggedUser model)
         {
@@ -29,6 +37,13 @@ namespace Hedibe.Services
         public void LogoutUser()
         {
             LoggedUser = new();
+        }
+
+        public bool CheckLoggedUser()
+        {
+            if (LoggedUser.Username is null) return false;
+
+            return true;
         }
 
         public string GetLoggedUserRole()

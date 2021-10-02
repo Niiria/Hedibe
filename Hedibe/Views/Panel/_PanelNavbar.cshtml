@@ -1,0 +1,45 @@
+﻿<nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar pt-md-3 px-0" style="">
+    <ul class="nav d-flex flex-row justify-content-md-center justify-content-around">
+        <li class="nav-item">
+            <button class="collapsed nav-link btn-clear text-dark d-flex align-items-center m-2 p-0 " data-toggle="collapse" data-target="#verify-collapse" aria-expanded="false">
+                <span class="iconify" data-icon="eva:arrow-down-fill"></span>
+                Verify
+                <span class="iconify" data-icon="bi:check-all"></span>
+            </button>
+            <div class="collapse" id="verify-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Meals</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <button class="collapsed nav-link btn-clear text-dark d-flex align-items-center m-2 p-0 " data-toggle="collapse" data-target="#edit-collapse" aria-expanded="false">
+                <span class="iconify" data-icon="eva:arrow-down-fill"></span>
+                Edit
+                <span class="iconify" data-icon="eva:edit-2-fill"></span>
+            </button>
+            <div class="collapse" id="edit-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Meals</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark p-0 m-2" asp-area="" asp-controller="Home" asp-action="Index">
+                Users
+                <span class="iconify" data-icon="fa-solid:users-cog"></span>
+            </a>
+        </li>
+    </ul>
+
+</nav>

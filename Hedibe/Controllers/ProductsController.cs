@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Hedibe.Entities;
+using Hedibe.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,11 +11,37 @@ namespace Hedibe.Controllers
 {
     public class ProductsController : Controller
     {
-        // GET: ProductsController
-        public ActionResult Index()
+        private readonly HedibeDbContext _context;
+        public ProductsController(HedibeDbContext context)
         {
-            return View();
+            _context = context;
         }
+
+        // private static List<Product> ProductsTable = new();
+
+        // GET: ProductsController
+        public ActionResult Index(int page=1)
+        {
+            List<Product> productsTable = _context.Products.ToList();
+
+            int pageSize = 10;
+            if (page < 1)
+                page = 1;
+
+            int productsTotal = productsTable.Count();
+
+            var pager = new Pager(productsTotal, page, pageSize);
+
+            int productsSkip = (page - 1) * pageSize;
+
+            var data = productsTable.Skip(productsSkip).Take(pager.PageSize).ToList();
+
+            this.ViewBag.Pager = pager;
+
+            return View(data);
+        }
+
+     
 
         // GET: ProductsController/Details/5
         public ActionResult Details(int id)
@@ -22,15 +50,23 @@ namespace Hedibe.Controllers
         }
 
         // GET: ProductsController/Create
-        public ActionResult Create()
+        public ActionResult Add(string id)
         {
+            if (id == null)
+                   id = "_Organization";
+            this.ViewBag.Render = id;
             return View();
+        }
+
+        public ActionResult Render(string? id)
+        {
+            return RedirectToAction("Add","Products", new {@id = id });
         }
 
         // POST: ProductsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Add(IFormCollection collection)
         {
             try
             {

@@ -12,10 +12,10 @@
 </head>
 <body>
     <header class="position-relative z-index-50">
-       <partial name="_Navbar"/>
+        <partial name="_Navbar" />
     </header>
 
-    
+
     <main role="main" class="position-relative d-flex flex-column z-index-10 flex-grow-1  ">
         @RenderBody()
     </main>
@@ -27,6 +27,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://code.iconify.design/2/2.0.4/iconify.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

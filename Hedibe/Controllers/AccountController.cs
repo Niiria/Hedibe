@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hedibe.Data;
 using Hedibe.Models;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Hedibe.Services;
 using Hedibe.Models.Account;
+using Hedibe.Entities;
 
 namespace Hedibe.Controllers
 {
@@ -75,7 +71,7 @@ namespace Hedibe.Controllers
         [ActionName("Login")]
         public IActionResult Login_submit(LoginUserDto model)
         {
-            var userFromDb =  _context.Users.SingleOrDefault(user => user.Username == model.Username);
+            var userFromDb =  _context.Users.Include(r=>r.Role).SingleOrDefault(user => user.Username == model.Username);
        
             if (userFromDb is null)
             {
@@ -87,14 +83,20 @@ namespace Hedibe.Controllers
 
             if (verificationResult == PasswordVerificationResult.Failed)
             {
-                ModelState.AddModelError(nameof(model.Password), "Password not correct");
+                ModelState.AddModelError(nameof(model.Password), "Invalid password");
                 return View(model);
             }
                     
             var loginUser = new LoggedUser() { Username = userFromDb.Username, Email = userFromDb.Email, Role = userFromDb.Role };
             _userContextService.LoginUser(loginUser);
-            return RedirectToAction("Index", "Home");
-               
+
+            if(loginUser.Role.Name == "User")
+                return RedirectToAction("Landing", "Home");
+
+            if (loginUser.Role.Name == "Admin" || loginUser.Role.Name == "Mod")
+                return RedirectToAction("Dashboard", "Panel");
+
+            return View(model);
         }
     }
 }

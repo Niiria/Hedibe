@@ -3,11 +3,14 @@
 }
 
 body {
-    /* Margin bottom by footer height */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     user-select: none;
+}
+
+.active{
+    color: red;
 }
 
 .dropdown{
@@ -23,6 +26,33 @@ body {
     transform: scale(1.1);
 }
 
+.btn-clear {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.btn-clear:active {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.btn-clear:focus {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
 
 .z-index-50 {
     z-index: 50 !important;
@@ -32,8 +62,12 @@ body {
     z-index: 10 !important;
 }
 
-.pt-20-p {
-    padding-top: 5vh !important;
+.active-page-btn {
+    color: rgb(255,255,255);
+    background: #1b6ec2;
+}
+
+.background-animated {
     background: linear-gradient(45deg, rgba(26,63,249,0.25003504819896705) 0%, rgba(252,244,70,0.25) 25%, rgba(252,70,190,0.25) 50%, rgba(70,178,252,0.25) 75%);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
@@ -72,7 +106,6 @@ body {
 
 
 
-
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
@@ -90,15 +123,9 @@ body {
 
 
 
-
-
-/* Sticky footer styles
--------------------------------------------------- */
-
-
 .footer {
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 40px; /* Vertically center the text there */
+    line-height: 40px; 
 }

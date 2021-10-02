@@ -1,7 +1,7 @@
 ﻿using Hedibe.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hedibe.Data
+namespace Hedibe.Entities
 {
     public class HedibeDbContext : DbContext
     {
