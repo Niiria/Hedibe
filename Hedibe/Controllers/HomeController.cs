@@ -1,4 +1,5 @@
 ﻿using Hedibe.Models;
+using Hedibe.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,9 +12,27 @@ namespace Hedibe.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUserContextService _userContextService;
+        public HomeController(IUserContextService userContextService)
+        {
+            _userContextService = userContextService;
+        }
 
         public IActionResult Index()
         {
+            var userRole = _userContextService.GetRole();
+            if (userRole is not null)
+            switch (userRole)
+                {
+                    case "User":
+                        return RedirectToAction("Landing", "Home");
+                    case "Moderator":
+                        return RedirectToAction("Dashboard", "Panel");
+                    case "Admin":
+                        return RedirectToAction("Dashboard", "Panel");
+                    default:
+                        break;
+                }
             return View();
         }
 

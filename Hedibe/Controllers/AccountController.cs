@@ -87,7 +87,13 @@ namespace Hedibe.Controllers
                 return View(model);
             }
                     
-            var loginUser = new LoggedUser() { Username = userFromDb.Username, Email = userFromDb.Email, Role = userFromDb.Role };
+            var loginUser = new LoggedUser() 
+            { 
+                Id = userFromDb.Id,
+                Username = userFromDb.Username, 
+                Email = userFromDb.Email, 
+                Role = userFromDb.Role 
+            };
             _userContextService.LoginUser(loginUser);
 
             if(loginUser.Role.Name == "User")

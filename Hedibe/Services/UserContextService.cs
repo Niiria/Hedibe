@@ -11,12 +11,19 @@ namespace Hedibe.Services
         bool CheckLoggedUser();
         string GetUsername();
         string GetRole();
+        public int? GetUserId();
     }
 
     public class UserContextService : IUserContextService
     {
         private static LoggedUser LoggedUser = new();
 
+        public int? GetUserId()
+        {
+            if (LoggedUser.Id is null) return null;
+
+            return LoggedUser.Id;
+        }
         public string GetUsername()
         {
             if (LoggedUser.Username is null) return null;
@@ -25,7 +32,7 @@ namespace Hedibe.Services
         }
         public string GetRole()
         {
-            if (LoggedUser.Role.Name is null) return null;
+            if (LoggedUser.Role is null) return null;
 
             return LoggedUser.Role.Name;
         }

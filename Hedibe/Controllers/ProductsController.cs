@@ -1,5 +1,7 @@
 ﻿using Hedibe.Entities;
 using Hedibe.Models;
+using Hedibe.Models.Product;
+using Hedibe.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +14,11 @@ namespace Hedibe.Controllers
     public class ProductsController : Controller
     {
         private readonly HedibeDbContext _context;
-        public ProductsController(HedibeDbContext context)
+        private readonly IUserContextService _userContextService;
+        public ProductsController(HedibeDbContext context, IUserContextService userContextService)
         {
             _context = context;
+            _userContextService = userContextService;
         }
 
         // private static List<Product> ProductsTable = new();
@@ -49,33 +53,50 @@ namespace Hedibe.Controllers
             return View();
         }
 
-        // GET: ProductsController/Create
-        public ActionResult Add(string id)
+        public ActionResult Render(string? id)
         {
-            if (id == null)
-                   id = "_Organization";
-            this.ViewBag.Render = id;
+            return RedirectToAction("Add", "Products", new { @id = id });
+        }
+
+        [HttpGet]
+        // GET: ProductsController/Create
+        public ActionResult Add(string message)
+        {
+            if(message is not null)
+                ViewBag.AddInfo = message;
+            else
+                ViewBag.AddInfo = null;
+
             return View();
         }
 
-        public ActionResult Render(string? id)
-        {
-            return RedirectToAction("Add","Products", new {@id = id });
-        }
 
         // POST: ProductsController/Create
-        [HttpPost]
+        [HttpPost, ActionName("Add")]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(IFormCollection collection)
+        public async Task<IActionResult> AddProduct(ProductAddDto dto)
         {
-            try
+            ViewBag.AddInfo = null;
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                Product productToDb = new()
+                {
+                    Name = dto.Name,
+                    AmountPer = dto.AmountPer,
+                    Calories = dto.Calories,
+                    TotalFat = dto.TotalFat,
+                    Protein = dto.Protein,
+                    Carbohydrate = dto.Carbohydrate,
+                    Verified = false,
+                    OwnerId = _userContextService.GetUserId()
+                };
+
+                _context.Products.Add(productToDb);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Add", new {@message = "Succesfully added your product!" });
+
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: ProductsController/Edit/5

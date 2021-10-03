@@ -11,8 +11,16 @@
     }
 }
 <section>
-    <div class="text-center">
-        <h1>@ViewData["Title"]</h1>
+    <div class="d-flex justify-content-between px-4 pt-2">
+        <h1 class="font-dancing-script m-0">- @ViewData["Title"] -</h1>
+        <h2 class="m-0">🍒🍎🍓🥬🥦</h2>
+    </div>
+    <div class="d-flex justify-content-between px-4">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <a class="nav-link text-dark d-flex align-items-center p-0" asp-controller="Products" asp-action="Add"><span class=" mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own products!</a>
     </div>
   <table class="table text-center">
   <thead>
@@ -57,7 +65,15 @@
               @Html.DisplayFor(model => item.Carbohydrate)
           </td>
           <td>
-              @Html.DisplayFor(model => item.Verified)
+              @if (item.Verified == true)
+              {
+                  <span class="iconify text-success" data-icon="akar-icons:circle-check-fill"></span>
+              }
+
+              else
+              {
+                  <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill"></span>
+              }
           </td>
       </tr>
       }

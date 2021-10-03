@@ -1,12 +1,16 @@
-﻿html {
-    height: 100%;
+﻿
+
+.font-dancing-script {
+    font-family: 'Dancing Script', cursive;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    user-select: none;
+.background-milk{
+    background-color: #fbfaf1;
+}
+
+
+.font-size-md{
+    font-size: 1.6rem;
 }
 
 .active{
@@ -63,8 +67,8 @@ body {
 }
 
 .active-page-btn {
-    color: rgb(255,255,255);
-    background: #1b6ec2;
+    color: rgb(255,255,255) !important; 
+    background: #808080;
 }
 
 .background-animated {
@@ -86,10 +90,6 @@ body {
     100% {
         background-position: 0% 50%;
     }
-}
-
-.font-dancing-script {
-    font-family: 'Dancing Script', cursive;
 }
 
 
@@ -121,7 +121,16 @@ body {
     }
 }
 
+html {
+    height: 100%;
+}
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    user-select: none;
+}
 
 .footer {
     bottom: 0;
