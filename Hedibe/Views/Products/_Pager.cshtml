@@ -20,13 +20,16 @@
         && pge <= (Model.TotalPages -2 <= Model.CurrentPage ? Model.CurrentPage + 2 : 5));
         pge++)*@
 
-        @for (var pge = (Model.CurrentPage <= 2 ? Model.StartPage : (Model.CurrentPage >= Model.TotalPages - 2 ? 6 : Model.CurrentPage - 2));
-         pge <= (Model.CurrentPage >= 3 ? (Model.CurrentPage >= Model.TotalPages - 2 ? Model.TotalPages : Model.CurrentPage + 2) : 5);
-         pge++)
+        @* @for (var pge = (Model.CurrentPage <= 2 ? Model.StartPage : (Model.CurrentPage >= Model.TotalPages - 2 ? 6 : Model.CurrentPage - 2));
+        pge <= (Model.CurrentPage >= 3 ? (Model.CurrentPage >= Model.TotalPages - 2 ? Model.TotalPages : Model.CurrentPage + 2) : 5);
+        pge++)*@
+        @for (var pge = Model.StartPage;
+        pge <= Model.TotalPages;
+        pge++)
         {
-            <li class="page-item" )>
-                <a class="page-link text-dark @(pge == Model.CurrentPage ? "active-page-btn": "")" asp-controller="Products" asp-action="Index" asp-route-page="@pge">@pge</a>
-            </li>
+        <li class="page-item" )>
+            <a class="page-link text-dark @(pge == Model.CurrentPage ? "active-page-btn": "")" asp-controller="Products" asp-action="Index" asp-route-page="@pge">@pge</a>
+        </li>
         }
 
         @if (Model.CurrentPage < Model.TotalPages)

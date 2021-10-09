@@ -16,32 +16,36 @@
         <h2 class="m-0">🍒🍎🍓🥬🥦</h2>
     </div>
     <div class="d-flex justify-content-between px-4">
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <a class="nav-link text-dark d-flex align-items-center p-0" asp-controller="Products" asp-action="Add"><span class=" mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own products!</a>
+        <form class="form-inline my-2 my-lg-0" asp-action="Search">
+            <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true">
+                <span class="iconify" data-icon="bi:x-square-fill" data-width="32" data-height="32"></span>
+            </a>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchString" name="SearchString">
+            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <a class="nav-link text-dark d-flex align-items-center p-0" asp-controller="Products" asp-action="Add"><span class=" mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own products!</a>
     </div>
   <table class="table text-center">
   <thead>
       <tr>
-          <th scope="col" style="width: 25%">
-              @Html.DisplayNameFor(model => model.Name)
+          <th class="p-1" scope="col" style="width: 25%">
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Name"> @Html.DisplayNameFor(model => model.Name) </a>
           </th>
-          <th scope="col" style="width: 17%">
-              @Html.DisplayNameFor(model => model.Calories)
+          <th  class="p-1"scope="col" style="width: 17%">
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Calories"> @Html.DisplayNameFor(model => model.Calories) </a>
           </th>
-          <th scope="col" style="width: 17%">
-              @Html.DisplayNameFor(model => model.TotalFat)
+          <th  class="p-1"scope="col" style="width: 17%">
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="TotalFat"> @Html.DisplayNameFor(model => model.TotalFat) </a>
           </th>
-          <th scope="col" style="width: 17%">
-              @Html.DisplayNameFor(model => model.Protein)
+          <th  class="p-1"scope="col" style="width: 17%">
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Protein"> @Html.DisplayNameFor(model => model.Protein) </a>
           </th>
-          <th scope="col" style="width: 17%">
-              @Html.DisplayNameFor(model => model.Carbohydrate)
+          <th class="p-1" scope="col" style="width: 17%">
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Carbohydrate"> @Html.DisplayNameFor(model => model.Carbohydrate) </a>
           </th>
-          <th scope="col" style="width: 7%">
-              @Html.DisplayNameFor(model => model.Verified)
+          <th class="p-1" scope="col" style="width: 7%">
+              <p class="font-dancing-script font-size-md text-dark m-0">  @Html.DisplayNameFor(model => model.Verified)</p>
+            
           </th>
       </tr>
   </thead>

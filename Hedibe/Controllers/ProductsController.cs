@@ -21,12 +21,32 @@ namespace Hedibe.Controllers
             _userContextService = userContextService;
         }
 
-        // private static List<Product> ProductsTable = new();
+        // private static List<Product> productsTable = new();
+
+        private static string lastSortString = null;
+        private static string sortString = null;
+        private static bool sortDirection = true;
+        private static string searchValue = null;
+
+        
 
         // GET: ProductsController
         public ActionResult Index(int page=1)
         {
-            List<Product> productsTable = _context.Products.ToList();
+            List<Product> productsTable = new();
+
+            if (searchValue is null)
+                productsTable = _context.Products.ToList();
+            else
+            {
+                ViewBag.SearchString = searchValue;
+                productsTable = _context.Products.Where(p => p.Name.ToLower().Contains(searchValue.ToLower())).ToList();
+            }
+                
+
+            if (sortString is not null)
+                productsTable = SortProductsTable(sortString, sortDirection ,productsTable);
+
 
             int pageSize = 10;
             if (page < 1)
@@ -42,21 +62,13 @@ namespace Hedibe.Controllers
 
             this.ViewBag.Pager = pager;
 
+           
             return View(data);
         }
 
      
 
-        // GET: ProductsController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        public ActionResult Render(string? id)
-        {
-            return RedirectToAction("Add", "Products", new { @id = id });
-        }
+       
 
         [HttpGet]
         // GET: ProductsController/Create
@@ -96,6 +108,43 @@ namespace Hedibe.Controllers
                 return RedirectToAction("Add", new {@message = "Succesfully added your product!" });
 
             }
+            return View();
+        }
+
+        public IActionResult Search(string? searchString, bool reset, bool verified)
+        {
+            searchValue = searchString;
+
+            if (searchString == "" || reset) 
+                searchValue = null;
+                sortString = null;
+            
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Sort(string? sort)
+        {
+            sortString = sort;
+            if (sortString == lastSortString)
+            {
+                sortDirection = false;
+                lastSortString = null;
+            }
+            else
+            {
+                sortDirection = true;
+                lastSortString = sortString;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+
+
+        // GET: ProductsController/Details/5
+        public ActionResult Details(int id)
+        {
             return View();
         }
 
@@ -139,6 +188,46 @@ namespace Hedibe.Controllers
             {
                 return View();
             }
+        }
+
+        private List<Product> SortProductsTable(string sortStr, bool sortDir ,List<Product> list)
+        {
+            switch (sortString)
+            {
+                case "Name":
+                    if (sortDir)
+                        return list.OrderBy(o => o.Name).ToList();
+                    else
+                        return list.OrderByDescending(o => o.Name).ToList();
+
+                case "Calories":
+                    if (sortDir)
+                        return list.OrderBy(o => o.Calories).ToList();
+                    else
+                        return list.OrderByDescending(o => o.Calories).ToList();
+                    
+                case "TotalFat":
+                    if (sortDir)
+                        return list.OrderBy(o => o.TotalFat).ToList();
+                    else
+                        return list.OrderByDescending(o => o.TotalFat).ToList();
+
+                case "Protein":
+                    if (sortDir)
+                        return list.OrderBy(o => o.Protein).ToList();
+                    else
+                        return list.OrderByDescending(o => o.Protein).ToList();
+
+                case "Carbohydrate":
+                    if (sortDir)
+                        return list.OrderBy(o => o.Carbohydrate).ToList();
+                    else
+                        return list.OrderByDescending(o => o.Carbohydrate).ToList();
+
+                default:
+                    break;
+            }
+            return list;
         }
     }
 }

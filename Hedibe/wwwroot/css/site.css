@@ -13,6 +13,10 @@
     font-size: 1.6rem;
 }
 
+.font-size-lg {
+    font-size: 3.0rem;
+}
+
 .active{
     color: red;
 }
@@ -99,6 +103,12 @@
     background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(0,241,255,0.26404065043986347) 100%);
 }
 
+.login-background-cherries{
+    background-image: url(../assets/Cherries_BG.jpg);
+    background-size: cover;
+    
+}
+
 .home-h1-custom{
     font-size: 8rem;
 }
@@ -138,3 +148,4 @@ body {
     white-space: nowrap;
     line-height: 40px; 
 }
+
