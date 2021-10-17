@@ -14,7 +14,8 @@ namespace Hedibe.Entities
         public DbSet<Product> Products { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<ShoppingList> ShoppingLists {get; set;}
-   
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +35,7 @@ namespace Hedibe.Entities
             modelBuilder.Entity<Meal>()
                 .Property(r => r.Name)
                 .IsRequired();
+
         }
     }
 }

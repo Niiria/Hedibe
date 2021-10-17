@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Hedibe.Entities.ShoppingList>
+
+<section>
+    <div class="d-flex justify-content-between px-4 pt-2">
+        <h1 class="font-dancing-script m-0">- @ViewData["Title"] -</h1>
+        <h2 class="m-0">Browse shopping lists</h2>
+    </div>
+    @foreach (var item in  Model)
+    {
+        <h1>@item.Name</h1>
+    }
+
+
+</section>
+
+
+

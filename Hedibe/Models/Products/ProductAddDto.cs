@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hedibe.Models.Product
+namespace Hedibe.Models.Products
 {
     public class ProductAddDto
     {

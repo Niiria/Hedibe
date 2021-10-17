@@ -2,7 +2,7 @@
 
 namespace Hedibe.Migrations
 {
-    public partial class DBInitialize : Migration
+    public partial class DbInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

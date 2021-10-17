@@ -19,7 +19,7 @@ namespace Hedibe.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Hedibe.Models.Meal", b =>
+            modelBuilder.Entity("Hedibe.Entities.Meal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace Hedibe.Migrations
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.Product", b =>
+            modelBuilder.Entity("Hedibe.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,7 +97,7 @@ namespace Hedibe.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.Role", b =>
+            modelBuilder.Entity("Hedibe.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,7 +113,7 @@ namespace Hedibe.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.ShoppingList", b =>
+            modelBuilder.Entity("Hedibe.Entities.ShoppingList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace Hedibe.Migrations
                     b.ToTable("ShoppingLists");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.User", b =>
+            modelBuilder.Entity("Hedibe.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,36 +194,36 @@ namespace Hedibe.Migrations
                     b.ToTable("ProductShoppingList");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.Meal", b =>
+            modelBuilder.Entity("Hedibe.Entities.Meal", b =>
                 {
-                    b.HasOne("Hedibe.Models.User", "Owner")
+                    b.HasOne("Hedibe.Entities.User", "Owner")
                         .WithMany("Meals")
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.Product", b =>
+            modelBuilder.Entity("Hedibe.Entities.Product", b =>
                 {
-                    b.HasOne("Hedibe.Models.User", "Owner")
+                    b.HasOne("Hedibe.Entities.User", "Owner")
                         .WithMany("Products")
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.ShoppingList", b =>
+            modelBuilder.Entity("Hedibe.Entities.ShoppingList", b =>
                 {
-                    b.HasOne("Hedibe.Models.User", "Owner")
+                    b.HasOne("Hedibe.Entities.User", "Owner")
                         .WithMany("ShoppingLists")
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Hedibe.Models.User", b =>
+            modelBuilder.Entity("Hedibe.Entities.User", b =>
                 {
-                    b.HasOne("Hedibe.Models.Role", "Role")
+                    b.HasOne("Hedibe.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -234,13 +234,13 @@ namespace Hedibe.Migrations
 
             modelBuilder.Entity("MealProduct", b =>
                 {
-                    b.HasOne("Hedibe.Models.Meal", null)
+                    b.HasOne("Hedibe.Entities.Meal", null)
                         .WithMany()
                         .HasForeignKey("MealsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hedibe.Models.Product", null)
+                    b.HasOne("Hedibe.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -249,20 +249,20 @@ namespace Hedibe.Migrations
 
             modelBuilder.Entity("ProductShoppingList", b =>
                 {
-                    b.HasOne("Hedibe.Models.Product", null)
+                    b.HasOne("Hedibe.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hedibe.Models.ShoppingList", null)
+                    b.HasOne("Hedibe.Entities.ShoppingList", null)
                         .WithMany()
                         .HasForeignKey("ShoppingListsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Hedibe.Models.User", b =>
+            modelBuilder.Entity("Hedibe.Entities.User", b =>
                 {
                     b.Navigation("Meals");
 

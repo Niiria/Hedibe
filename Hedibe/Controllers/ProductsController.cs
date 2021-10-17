@@ -1,6 +1,6 @@
 ﻿using Hedibe.Entities;
 using Hedibe.Models;
-using Hedibe.Models.Product;
+using Hedibe.Models.Products;
 using Hedibe.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
