@@ -21,7 +21,15 @@
     color: red;
 }
 
-.dropdown{
+.verify-hover-success:hover {
+    color: green !important;
+}
+
+.verify-hover-danger:hover {
+    color: red !important;
+}
+
+.dropdown {
     margin: 0 4px;
 }
 

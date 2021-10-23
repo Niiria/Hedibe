@@ -111,7 +111,7 @@ namespace Hedibe.Controllers
             return View();
         }
 
-        public IActionResult Search(string? searchString, bool reset, bool verified)
+        public IActionResult Search(string? searchString, bool reset)
         {
             searchValue = searchString;
 

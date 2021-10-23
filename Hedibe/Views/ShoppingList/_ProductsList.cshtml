@@ -3,7 +3,7 @@
 <div class="d-flex justify-content-center flex-column align-items-center">
     <form method="post" asp-action="AddSearchProduct">
         <div class="form-group">
-            <select id="searchProducts" asp-for="@Model.Id" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
+            <select id="searchProducts" asp-for="@Model.ProductId" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
                 <option value="0">Select Product</option>
             </select>
             <input class="btn btn-dark" type="submit" value="Add" />
@@ -68,7 +68,7 @@
                             }
                         </td>
                         <td>
-                            <a class="text-danger" asp-route-id="@item.Id" asp-action="RemoveSearchProduct" asp-controller="ShoppingList"><span class="iconify" data-icon="fluent:delete-off-24-filled" data-width="20" data-height="20"></span></a>
+                            <a class="text-danger" type="submit" asp-route-id="@item.Id" asp-action="RemoveSearchProduct" asp-controller="ShoppingList"><span class="iconify" data-icon="fluent:delete-off-24-filled" data-width="20" data-height="20"></span></a>
                         </td>
                     </tr>
                 }

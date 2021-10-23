@@ -1,17 +1,46 @@
 ﻿@model IEnumerable<Hedibe.Entities.ShoppingList>
 
-<section>
-    <div class="d-flex justify-content-between px-4 pt-2">
-        <h1 class="font-dancing-script m-0">- @ViewData["Title"] -</h1>
-        <h2 class="m-0">Browse shopping lists</h2>
+<section class="container">
+    <div class="d-flex justify-content-between px-4 py-3">
+        <h1 class="font-dancing-script m-0">- Browse shopping lists-</h1>
     </div>
-    @foreach (var item in  Model)
-    {
-        <h1>@item.Name</h1>
-    }
 
-
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Products</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td data-toggle="tooltip" data-placement="bottom" title="@foreach (var product in item.Products)
+                    {<>@product.Name </>
+                    }
+                    ">
+                            @item.Products.Count
+                    </td>
+                    <td>
+                        <a typeof="text" class="text-info" asp-route-id="@item.Id" asp-action="EditShoppingList">
+                            <span class="iconify" data-icon="clarity:note-edit-line"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a typeof="text" class="text-danger" asp-route-id="@item.Id" asp-action="RemoveShoppingList">
+                            <span class="iconify" data-icon="fluent:delete-off-24-filled"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </section>
-
 
 

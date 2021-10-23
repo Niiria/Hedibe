@@ -3,6 +3,7 @@ using Hedibe.Models.ShoppingLists;
 using Hedibe.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,54 +22,52 @@ namespace Hedibe.Controllers
             _userContextService = userContextService;
         }
 
-        private static List<Product> shoppingListProducts = new();
+        private static List<Product> ShoppingListProducts = new();
 
         public ActionResult Index()
         {
             List<ShoppingList> shoppingLists = new();
 
-            shoppingLists = _context.ShoppingLists.Where(sl => sl.OwnerId == _userContextService.GetUserId()).ToList();
+            shoppingLists = _context.ShoppingLists.Include(p => p.Products).Where(sl => sl.OwnerId == _userContextService.GetUserId()).ToList();
 
             return View(shoppingLists);
         }
 
-
-        public ActionResult Add()
+        [HttpGet]
+        public ActionResult Add(ShoppingListAddDto model)
         {
             List<Product> productsTable = new();
-            ProductsList searchProducts = new();
+            // ShoppingListAddModel = model;
+            if(model.Products is null)
+            {
+                productsTable = _context.Products.ToList();
+                if (productsTable is not null)
+                    model.Products = productsTable;
+            }
+            model.CurrentProducts = ShoppingListProducts;
 
-            productsTable = _context.Products.ToList();
-            if (productsTable is not null)
-                searchProducts.Products = productsTable;
-
-
-            searchProducts.CurrentProducts = shoppingListProducts;
-            ViewBag.searchProducts = searchProducts;
-            return View();
+            return View(model);
         }
 
-        public ActionResult AddSearchProduct(int? Id)
+        public ActionResult AddSearchProduct(ShoppingListAddDto model)
         {
-            var productFromDb = _context.Products.FirstOrDefault(p => p.Id == Id);
-            shoppingListProducts.Add(productFromDb);
-            return RedirectToAction("Add");
+            var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
+            if (productFromDb is not null)
+                ShoppingListProducts.Add(productFromDb);
+            return RedirectToAction("Add", model);
         }
 
-        public ActionResult RemoveSearchProduct(int? Id)
+        public ActionResult RemoveSearchProduct(int? id, ShoppingListAddDto model)
         {
-            var itemToRemove = shoppingListProducts.FirstOrDefault(p => p.Id == Id);
-            if(itemToRemove is not null) { }
-                shoppingListProducts.Remove(itemToRemove);
-            return RedirectToAction("Add");
+            var itemToRemove = ShoppingListProducts.FirstOrDefault(p => p.Id == id);
+            if(itemToRemove is not null)
+                ShoppingListProducts.Remove(itemToRemove);
+            return RedirectToAction("Add", model);
         }
 
-
-
-        // POST: ShoppingListController/Create
-        [HttpPost]
+        [HttpPost, ActionName("Add")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(ShoppingListAddDto model)
+        public async Task<IActionResult> AddList(ShoppingListAddDto model)
         {
             if (ModelState.IsValid)
             {
@@ -77,10 +76,11 @@ namespace Hedibe.Controllers
                     Name = model.Name,
                     Description = model.Description,
                     OwnerId = _userContextService.GetUserId(),
-                    Products = shoppingListProducts
+                    Products = model.CurrentProducts
                 };
 
                 _context.ShoppingLists.Attach(shoppingListToDb);
+                ShoppingListProducts = new();
 
                 await _context.SaveChangesAsync();
             }
