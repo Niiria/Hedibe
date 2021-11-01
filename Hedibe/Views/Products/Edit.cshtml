@@ -1,28 +1,77 @@
-﻿@{
-    ViewData["Title"] = "Products/Edit";
-}
-<section>
+﻿@model Hedibe.Entities.Product
+
+<section class="container py-3">
     <div class="text-center">
-        <h1>@ViewData["Title"]</h1>
-        <p class="text-center">Page after user log into app</p>
+        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Update product! 🩹</h1>
+        <p class="text-black-50 m-0">- In this section you can freely add your own products, but until they are verified by our administrators you can not see them in products tab -</p>
+        @if (ViewBag.AddInfo is not null)
+        {
+            if (ViewBag.AddInfo.Substring(0, 1) == "S")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+            }
+
+            if (ViewBag.AddInfo.Substring(0, 1) == "F")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+            }
+        }
     </div>
-    <div class="row m-0 p-2">
-        <div class="col-9 text-center border-right border-left">
-            <h2 style="text-decoration: underline">News</h2>
-            <div>
-                <article>
-                    <h3>About cherries</h3>
-                    <img style="width:480px; " src="https://cdn.pixabay.com/photo/2016/06/05/16/40/cherry-1437707_960_720.jpg" alt="article photo" />
-                    <p>Cherries and their health valors</p>
-                    <button class="btn btn-primary">Read more!</button>
-                </article>
+
+    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@ViewData["page"]"class="m-2">
+        <input asp-for="Id" hidden />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="d-flex justify-content-around flex-md-row flex-column">
+            <span class="iconify" style="width:320px; height:320px" data-icon="ic:round-photo-size-select-large"></span>
+            <div class="d-flex flex-column">
+                <div class="form-group form-inline row">
+                    <div class="col-5 text-center">
+                        <label asp-for="Name" class="control-label font-dancing-script font-size-md"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <input asp-for="Name" class="col-7 form-control" />
+                </div>
+                <div class="form-group form-inline row">
+                    <label asp-for="AmountPer" class="col-5 control-label font-dancing-script font-size-md"></label>
+                    <input asp-for="AmountPer" class="col-7 form-control" value="100" />
+                    <span asp-validation-for="AmountPer" class="text-danger"></span>
+                </div>
+                <div class="form-group form-inline row">
+                    <div class="col-5 text-center">
+                        <label asp-for="Calories" class="control-label font-dancing-script font-size-md"></label>
+                        <span asp-validation-for="Calories" class="text-danger"></span>
+                    </div>
+                    <input asp-for="Calories" class="col-7 form-control" />
+                </div>
+                <div class="form-group form-inline row">
+                    <label asp-for="TotalFat" class="col-5 control-label font-dancing-script font-size-md"></label>
+                    <input asp-for="TotalFat" class="col-7 form-control" />
+                    <span asp-validation-for="TotalFat" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-inline row">
+                    <label asp-for="Protein" class="col-5 control-label font-dancing-script font-size-md"></label>
+                    <input asp-for="Protein" class="col-7 form-control" />
+                    <span asp-validation-for="Protein" class="text-danger"></span>
+                </div>
+                <div class="form-group form-inline row">
+                    <label asp-for="Carbohydrate" class="col-5 control-label font-dancing-script font-size-md"></label>
+                    <input asp-for="Carbohydrate" class="col-7 form-control" />
+                    <span asp-validation-for="Carbohydrate" class="text-danger"></span>
+                </div>
+                <div class="form-group form-inline justify-content-center ">
+                    <input type="submit" value="Update" class="btn btn-dark " />
+                </div>
             </div>
         </div>
-        <div class="col-3 text-center ">
-            <h3>Last added meals</h3>
-        </div>
+    </form>
+
+
+    <div class="">
+        <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
+            <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
+            Back to List
+            <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>
+        </a>
     </div>
 </section>
-
-
-

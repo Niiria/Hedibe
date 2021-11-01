@@ -19,7 +19,7 @@ namespace Hedibe.Entities
         public bool Verified { get; set; }
         public int? OwnerId { get; set; }
         public virtual User Owner { get; set; }
-        public ICollection<Meal> Meals { get; set; }
-        public ICollection<ShoppingList> ShoppingLists { get; set; }
+        public List<Meal> Meals { get; set; }
+        public List<ShoppingList> ShoppingLists { get; set; }
     }
 }

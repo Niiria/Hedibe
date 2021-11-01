@@ -14,6 +14,6 @@ namespace Hedibe.Entities
         public string Description { get; set; }
         public int? OwnerId { get; set; }
         public virtual User Owner { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

@@ -26,47 +26,66 @@ namespace Hedibe.Controllers
 
         public ActionResult Index()
         {
+            if (TempData["AddInfo"] is not null)
+                ViewBag.AddInfo = TempData["AddInfo"];
+            else
+                ViewBag.AddInfo = null;
+
             List<ShoppingList> shoppingLists = new();
+            ShoppingListProducts = new();
 
             shoppingLists = _context.ShoppingLists.Include(p => p.Products).Where(sl => sl.OwnerId == _userContextService.GetUserId()).ToList();
 
             return View(shoppingLists);
         }
 
-        [HttpGet]
-        public ActionResult Add(ShoppingListAddDto model)
+        public ActionResult AddSearchProduct(ShoppingListAddDto model, string redirect)
         {
+            var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
+            if (productFromDb is not null)
+                ShoppingListProducts.Add(productFromDb);
+            return RedirectToAction(redirect, model);
+        }
+
+        public ActionResult RemoveSearchProduct(ShoppingListAddDto model, int itemId, string redirect)
+        {
+            var itemToRemove = ShoppingListProducts.FirstOrDefault(p => p.Id == itemId);
+            if (itemToRemove is not null)
+                ShoppingListProducts.Remove(itemToRemove);
+            return RedirectToAction(redirect, model);
+        }
+
+
+        // GET: ShoppingListController/Add
+
+        [HttpGet]
+        public ActionResult Add(ShoppingListAddDto model, bool reset=false)
+        {
+            if (TempData["AddInfo"] is not null)
+                ViewBag.AddInfo = TempData["AddInfo"];
+            else
+                ViewBag.AddInfo = null;
+
             List<Product> productsTable = new();
-            // ShoppingListAddModel = model;
-            if(model.Products is null)
+           
+            if (reset)
+                ShoppingListProducts = new();
+
+            if (model.Products is null)
             {
                 productsTable = _context.Products.ToList();
                 if (productsTable is not null)
                     model.Products = productsTable;
             }
+
             model.CurrentProducts = ShoppingListProducts;
+            ViewData["redirect"] = "Add";
 
             return View(model);
         }
 
-        public ActionResult AddSearchProduct(ShoppingListAddDto model)
-        {
-            var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
-            if (productFromDb is not null)
-                ShoppingListProducts.Add(productFromDb);
-            return RedirectToAction("Add", model);
-        }
-
-        public ActionResult RemoveSearchProduct(int? id, ShoppingListAddDto model)
-        {
-            var itemToRemove = ShoppingListProducts.FirstOrDefault(p => p.Id == id);
-            if(itemToRemove is not null)
-                ShoppingListProducts.Remove(itemToRemove);
-            return RedirectToAction("Add", model);
-        }
-
+        // POST: ShoppingListController/Add
         [HttpPost, ActionName("Add")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddList(ShoppingListAddDto model)
         {
             if (ModelState.IsValid)
@@ -76,65 +95,118 @@ namespace Hedibe.Controllers
                     Name = model.Name,
                     Description = model.Description,
                     OwnerId = _userContextService.GetUserId(),
-                    Products = model.CurrentProducts
+                    Products = ShoppingListProducts
                 };
 
                 _context.ShoppingLists.Attach(shoppingListToDb);
-                ShoppingListProducts = new();
 
                 await _context.SaveChangesAsync();
+                ShoppingListProducts = new();
+                TempData["AddInfo"] = "Succesfully added your shopping list!";
+                return RedirectToAction("Add");
             }
-            return RedirectToAction("Add");
+            TempData["AddInfo"] = "Failed to add your shopping list!";
+            return RedirectToAction("Add", model);
         }
 
 
 
 
-        // GET: ShoppingListController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         // GET: ShoppingListController/Edit/5
-        public ActionResult Edit(int id)
+
+        public ActionResult Edit(ShoppingListAddDto model)
         {
-            return View();
+            if (TempData["AddInfo"] is not null)
+                ViewBag.AddInfo = TempData["AddInfo"];
+            else
+                ViewBag.AddInfo = null;
+
+            ViewData["redirect"] = "Edit";
+
+            if (model.Name is null && model.Description is null )
+            {
+                var shoppingListFromDb = _context.ShoppingLists.Include(p => p.Products).FirstOrDefault(sl => sl.Id == model.Id);
+                if (shoppingListFromDb is null)
+                    return RedirectToAction("Add");
+
+                ShoppingListAddDto shoppingListToUpdate = new()
+                {
+                    Name = shoppingListFromDb.Name,
+                    Description = shoppingListFromDb.Description,
+                    CurrentProducts = shoppingListFromDb.Products,
+                    Products = _context.Products.ToList()
+                };
+
+                ShoppingListProducts = shoppingListFromDb.Products;
+                return View(shoppingListToUpdate);
+            }
+
+            if (model.Products is null)
+            {
+                var productsTable = _context.Products.ToList();
+                if (productsTable is not null)
+                    model.Products = productsTable;
+            }
+            model.CurrentProducts = ShoppingListProducts;
+
+
+            return View(model);
+
         }
 
+
         // POST: ShoppingListController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpPost, ActionName("Edit")]
+        public async Task<IActionResult> EditShoppingList(ShoppingListAddDto dto)
         {
-            try
+            var shoppingListFromDb = _context.ShoppingLists.Include(p => p.Products).FirstOrDefault(sl => sl.Id == dto.Id);
+            if (shoppingListFromDb is null)
+                return RedirectToAction("Edit");
+
+            ViewBag.AddInfo = null;
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _context.ShoppingLists.Attach(shoppingListFromDb);
+            
+                shoppingListFromDb.Id = dto.Id;
+                shoppingListFromDb.Name = dto.Name;
+                shoppingListFromDb.Description = dto.Description;
+                shoppingListFromDb.OwnerId = _userContextService.GetUserId();
+                shoppingListFromDb.Products.Clear();
+
+                foreach (var item in ShoppingListProducts)
+                {
+                    var itemFromDb = _context.Products.FirstOrDefault(i=>i.Id == item.Id);
+                    shoppingListFromDb.Products.Add(itemFromDb);
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["AddInfo"] = "Succesfully updated your shopping list!";
+                return RedirectToAction("Edit", dto);
             }
-            catch
-            {
-                return View();
-            }
+            TempData["AddInfo"] = "Failed to add your shopping list!";
+            return RedirectToAction("Edit", dto);
         }
 
         // GET: ShoppingListController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingListController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var shoppingListFromDb = _context.ShoppingLists.FirstOrDefault(sl => sl.Id == id);
+                if (shoppingListFromDb is null)
+                    return RedirectToAction("Index");
+
+                _context.ShoppingLists.Remove(shoppingListFromDb);
+                await _context.SaveChangesAsync();
+                TempData["AddInfo"] = "Succesfully deleted your shopping list!";
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                TempData["AddInfo"] = "Failed to deleted your shopping list!";
+                return RedirectToAction("Index");
             }
         }
     }

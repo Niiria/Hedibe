@@ -8,11 +8,11 @@ namespace Hedibe.Models.Products
 {
     public class ProductAddDto
     {
-        [Required]
+        [Required(ErrorMessage = "Required*")]
         [MinLength(3)]
         public string Name { get; set; }
         public int? AmountPer { get; set; } = 100;
-        [Required]
+        [Required(ErrorMessage = "Required*")]
         [Range(0, int.MaxValue, ErrorMessage = "Calories can not be negative ")]
         public double? Calories { get; set; }
         public double? TotalFat { get; set; }

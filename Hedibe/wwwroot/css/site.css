@@ -33,6 +33,10 @@
     margin: 0 4px;
 }
 
+.cursor-help{
+    cursor: help !important; 
+}
+
 .nav-link {
     text-align: center;
     font-family: 'Dancing Script', cursive;

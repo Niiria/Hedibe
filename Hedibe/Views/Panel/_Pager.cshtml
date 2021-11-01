@@ -7,10 +7,10 @@
         @if (Model.CurrentPage > 1)
         {
             <li class="page-item">
-                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["action"]" asp-route-page="1">First</a>
+                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["redirect"]" asp-route-page="1">First</a>
             </li>
             <li class="page-item">
-                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["action"]" asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
+                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["redirect"]" asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
             </li>
         }
 
@@ -28,17 +28,17 @@
         pge++)
         {
         <li class="page-item" )>
-            <a class="page-link text-dark @(pge == Model.CurrentPage ? "active-page-btn": "")" asp-controller="Panel" asp-action="@ViewData["action"]" asp-route-page="@pge">@pge</a>
+            <a class="page-link text-dark @(pge == Model.CurrentPage ? "active-page-btn": "")" asp-controller="Panel" asp-action="@ViewData["redirect"]" asp-route-page="@pge">@pge</a>
         </li>
         }
 
         @if (Model.CurrentPage < Model.TotalPages)
         {
             <li class="page-item">
-                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["action"]" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["redirect"]" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
             </li>
             <li class="page-item">
-                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["action"]" asp-route-page="@(Model.TotalPages)">Last</a>
+                <a class="page-link text-dark" asp-controller="Panel" asp-action="@ViewData["redirect"]" asp-route-page="@(Model.TotalPages)">Last</a>
             </li>
         }
     </ul>

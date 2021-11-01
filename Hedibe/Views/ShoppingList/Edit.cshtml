@@ -2,37 +2,46 @@
 
 <section class="container py-3">
     <div class="text-center mb-3">
-        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own shopping list! 📋</h1>
-        <p class="text-black-50 m-0">- In this section you can create your own product shopping list. If you cannot find product you want, you can create your list and then from "Products list" add your product to your list -</p>
+        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Update your shopping list! 📋🩹</h1>
+        <p class="text-black-50 m-0">- In this section you can update your product shopping list. If you cannot find product you want, you can create your list and then from "Products list" add your product to your list -</p>
         @if (ViewBag.AddInfo is not null)
         {
-            <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😋</h2>
+            if (ViewBag.AddInfo.Substring(0, 1) == "S")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+            }
+
+            if (ViewBag.AddInfo.Substring(0, 1) == "F")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+            }
         }
     </div>
 
-    <form asp-action="Add" class="m-2">
+    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]"  class="m-2">
+        <input asp-for="Id" hidden/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="d-flex flex-column">
-            <div class="d-flex flex-column">
-
-                <div class="form-group form-inline row">
-                    <label asp-for="Name" class="col-2 control-label font-dancing-script font-size-md">Name:</label>
-                    <input asp-for="Name" class="col-9 form-control" />
+             <div class="form-group form-inline row">
+                <div class="col-2 text-center">
+                    <label asp-for="Name" class="control-label font-dancing-script font-size-md">Name:</label>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <div class="form-group form-inline row">
-                    <label asp-for="Description" class="col-2 control-label font-dancing-script font-size-md">Description:</label>
-                    <textarea asp-for="Description" class="col-9 form-control" rows="3" cols="80" style="resize: none;"></textarea>
+                <input asp-for="Name" class="col-9 form-control" />
+            </div>
+            <div class="form-group form-inline row">
+                <div class="col-2 text-center">
+                    <label asp-for="Description" class=" control-label font-dancing-script font-size-md">Description:</label>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
-
+                <textarea asp-for="Description" class="col-9 form-control" rows="3" cols="80" style="resize: none;"></textarea>
             </div>
-
+        </div>
             <div class="form-group text-center">
-                <select id="searchProducts" asp-for="ProductId" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
+                <select id="searchProducts" asp-for="ProductId"  asp-items="@(new SelectList(Model.Products,"Id","Name"))">
                     <option value="0">Select Product</option>
                 </select>
-                <input class="btn btn-dark" type="submit" value="Add" asp-action="AddSearchProduct" />
+                <input class="btn btn-dark" type="submit" value="Add" asp-route-redirect="@ViewData["redirect"]" asp-action="AddSearchProduct" />
             </div>
 
             <div class="d-flex justify-content-center flex-column align-items-center">
@@ -86,16 +95,16 @@
                                     <td>
                                         @if (item.Verified == true)
                                         {
-                                            <span class="iconify text-success" data-icon="akar-icons:circle-check-fill"></span>
+                                            <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
                                         }
 
                                         else
                                         {
-                                            <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill"></span>
+                                            <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
                                         }
                                     </td>
                                     <td>
-                                        <input typeof="text" class="btn btn-danger text-center m-0 p-0" style="height:26px; width:26px;" type="submit" asp-route-id="@item.Id" value="x" asp-action="RemoveSearchProduct" />
+                                        <input typeof="text" class="btn btn-danger text-center m-0 p-0" style="height:26px; width:26px;" type="submit" asp-route-itemId="@item.Id" value="x" asp-route-redirect="@ViewData["redirect"]" asp-action="RemoveSearchProduct" />
                                     </td>
                                 </tr>
                             }
@@ -106,15 +115,11 @@
             </div>
 
             <div class="form-group form-inline justify-content-center  ">
-                <input type="submit" class="btn btn-dark" value="Create List" />
+                <input type="submit" class="btn btn-dark" value="Update List" />
             </div>
         </div>
     </form>
-    @*
-        <partial name="_ProductsList" model="ViewBag.searchProducts" />*@
-
-
-
+  
 
     <div class="">
         <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
@@ -127,7 +132,6 @@
 </section>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">

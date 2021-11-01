@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Hedibe.Entities.Product>
+@using Hedibe.Entities
+@{
+    ViewData["Title"] = "Products";
+
+    Pager pager = new Pager();
+    int pageNumber = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNumber = pager.CurrentPage;
+    }
+
+    Product product = new Product();
+}
+<section class="row m-0">
+    <partial name="_PanelNavbar" />
+    <main class="col-md-9 ms-sm-auto col-lg-10">
+        <div class="pt-2">
+            <div class="d-flex justify-content-between px-4">
+                <form class="form-inline my-2 my-lg-0" asp-action="Search" asp-route-redirect="@ViewData["redirect"]">
+                    <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true" asp-route-redirect="@ViewData["redirect"]">
+                        <span class="iconify" data-icon="bi:x-square-fill" data-width="32" data-height="32"></span>
+                    </a>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchString" name="SearchString">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <a class="nav-link text-dark d-flex align-items-center p-0" asp-controller="Products" asp-action="Add"><span class=" mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own products!</a>
+            </div>
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th class="p-1" scope="col" style="width: 23%">
+                            <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Name" asp-route-redirect="@ViewData["redirect"]"> @Html.DisplayNameFor(model => model.Name) </a>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 15%">
+                            <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Calories" asp-route-redirect="@ViewData["redirect"]"> @Html.DisplayNameFor(model => model.Calories) </a>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 15%">
+                            <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="TotalFat" asp-route-redirect="@ViewData["redirect"]"> @Html.DisplayNameFor(model => model.TotalFat) </a>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 15%">
+                            <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Protein" asp-route-redirect="@ViewData["redirect"]"> @Html.DisplayNameFor(model => model.Protein) </a>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 15%">
+                            <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Carbohydrate" asp-route-redirect="@ViewData["redirect"]"> @Html.DisplayNameFor(model => model.Carbohydrate) </a>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 6%">
+                            <p class="font-dancing-script font-size-md text-dark m-0">Verify</p>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 6%">
+                            <p class="font-dancing-script font-size-md text-dark m-0">Edit</p>
+                        </th>
+                        <th class="p-1" scope="col" style="width: 6%">
+                            <p class="font-dancing-script font-size-md text-dark m-0">Delete</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Calories)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.TotalFat)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Protein)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Carbohydrate)
+                        </td>
+                        <td>
+                            @if (item.Verified == true)
+                            {
+                                <a class="px-2" asp-action="Verify" asp-route-id="@item.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@pager.CurrentPage">
+                                    <span class="iconify text-success verify-hover-danger" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
+                                </a>
+                            }
+
+                            else
+                            {
+                                <a class="px-2" asp-action="Verify" asp-route-id="@item.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@pager.CurrentPage">
+                                    <span class="iconify text-danger verify-hover-success" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            <a class="px-2 text-dark btn-clear" asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@pager.CurrentPage">
+                                <span class="iconify verify-hover-success" data-icon="bx:bxs-edit" data-width="26" data-height="26"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="px-2 text-dark btn-clear" asp-action="Delete" asp-route-id="@item.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@pager.CurrentPage">
+                                <span class="iconify verify-hover-danger" data-icon="fluent:delete-off-24-filled" data-width="26" data-height="26"></span>
+                            </a>
+                        </td>
+           
+                    </tr>
+                        
+                    }
+
+                </tbody>
+            </table>
+            <div>
+                <partial name="_pager" model="@pager" view-data="ViewData" />
+            </div>
+        </div>
+
+    </main>
+</section>
+
+
+
+

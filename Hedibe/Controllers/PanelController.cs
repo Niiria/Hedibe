@@ -67,9 +67,47 @@ namespace Hedibe.Controllers
         }
 
 
+        public IActionResult EditProducts(int page = 1)
+        {
+            List<Product> productsTable = new();
+
+            if (searchValue is null)
+                productsTable = _context.Products.ToList();
+            else
+            {
+                ViewBag.SearchString = searchValue;
+                productsTable = _context.Products.Where(p => p.Name.ToLower().Contains(searchValue.ToLower())).ToList();
+            }
 
 
-        public async Task<IActionResult> Verify(int? id, string? redirect, int? page)
+            if (sortString is not null)
+                productsTable = SortProductsTable(sortString, sortDirection, productsTable);
+
+
+            int pageSize = 10;
+            if (page < 1)
+                page = 1;
+
+            int productsTotal = productsTable.Count();
+
+            var pager = new Pager(productsTotal, page, pageSize);
+
+            int productsSkip = (page - 1) * pageSize;
+
+            var data = productsTable.Skip(productsSkip).Take(pager.PageSize).ToList();
+
+            this.ViewBag.Pager = pager;
+            ViewData["redirect"] = "EditProducts";
+
+
+            return View(data);
+
+        }
+
+
+
+
+        public async Task<IActionResult> Verify(int id, string redirect, int page)
         {
             var productToVerify = _context.Products.FirstOrDefault(p => p.Id == id);
             if (productToVerify is null)
@@ -82,20 +120,20 @@ namespace Hedibe.Controllers
             return RedirectToAction(redirect, new { @page = page });
         }
 
-        public async Task<IActionResult> Delete(int? id, string? redirect)
+        public async Task<IActionResult> Delete(int id, string redirect)
         {
-            var productToVerify = _context.Products.FirstOrDefault(p => p.Id == id);
-            if (productToVerify is null)
+            var productToDelete = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (productToDelete is null)
                 return RedirectToAction(redirect);
 
-            _context.Products.Remove(productToVerify);
+            _context.Products.Remove(productToDelete);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(redirect);
         }
 
 
-        public IActionResult Search(string? searchString, bool reset, string? redirect)
+        public IActionResult Search(string searchString, bool reset, string redirect)
         {
             searchValue = searchString;
 
@@ -106,7 +144,7 @@ namespace Hedibe.Controllers
             return RedirectToAction(redirect);
         }
 
-        public IActionResult Sort(string? sort, string? redirect)
+        public IActionResult Sort(string sort, string redirect)
         {
             sortString = sort;
             if (sortString == lastSortString)

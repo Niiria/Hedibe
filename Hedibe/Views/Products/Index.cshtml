@@ -16,8 +16,8 @@
         <h2 class="m-0">🍒🍎🍓🥬🥦</h2>
     </div>
     <div class="d-flex justify-content-between px-4">
-        <form class="form-inline my-2 my-lg-0" asp-action="Search">
-            <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true">
+        <form class="form-inline my-2 my-lg-0" asp-action="Search" asp-route-redirect="@ViewData["redirect"]">
+            <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true" asp-route-redirect="@ViewData["redirect"]">
                 <span class="iconify" data-icon="bi:x-square-fill" data-width="32" data-height="32"></span>
             </a>
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchString" name="SearchString">
@@ -29,19 +29,19 @@
   <thead>
       <tr>
           <th class="p-1" scope="col" style="width: 25%">
-              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Name"> @Html.DisplayNameFor(model => model.Name) </a>
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="Name"> @Html.DisplayNameFor(model => model.Name) </a>
           </th>
           <th  class="p-1"scope="col" style="width: 17%">
-              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Calories"> @Html.DisplayNameFor(model => model.Calories) </a>
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="Calories"> @Html.DisplayNameFor(model => model.Calories) </a>
           </th>
           <th  class="p-1"scope="col" style="width: 17%">
-              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="TotalFat"> @Html.DisplayNameFor(model => model.TotalFat) </a>
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="TotalFat"> @Html.DisplayNameFor(model => model.TotalFat) </a>
           </th>
           <th  class="p-1"scope="col" style="width: 17%">
-              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Protein"> @Html.DisplayNameFor(model => model.Protein) </a>
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="Protein"> @Html.DisplayNameFor(model => model.Protein) </a>
           </th>
           <th class="p-1" scope="col" style="width: 17%">
-              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Carbohydrate"> @Html.DisplayNameFor(model => model.Carbohydrate) </a>
+              <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="Carbohydrate"> @Html.DisplayNameFor(model => model.Carbohydrate) </a>
           </th>
           <th class="p-1" scope="col" style="width: 7%">
               <p class="font-dancing-script font-size-md text-dark m-0">  @Html.DisplayNameFor(model => model.Verified)</p>
@@ -71,12 +71,12 @@
           <td>
               @if (item.Verified == true)
               {
-                  <span class="iconify text-success" data-icon="akar-icons:circle-check-fill"></span>
+                  <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
               }
 
               else
               {
-                  <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill"></span>
+                  <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
               }
           </td>
       </tr>
@@ -85,7 +85,7 @@
   </tbody>
 </table>
   <div>
-      <partial name="_pager" model="@pager" />
+      <partial name="_pager" model="@pager" view-data="ViewData" />
   </div>
    
 </section>

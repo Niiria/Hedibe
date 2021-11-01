@@ -6,7 +6,15 @@
         <p class="text-black-50 m-0">- In this section you can freely add your own products, but until they are verified by our administrators you can not see them in products tab -</p>
         @if (ViewBag.AddInfo is not null)
         {
-    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😋</h2>
+            if (ViewBag.AddInfo.Substring(0, 1) == "S")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+            }
+
+            if (ViewBag.AddInfo.Substring(0, 1) == "F")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+            }
         }
     </div>
   
@@ -16,9 +24,11 @@
             <span class="iconify" style="width:320px; height:320px" data-icon="ic:round-photo-size-select-large"></span>
             <div class="d-flex flex-column">
                 <div class="form-group form-inline row">
-                    <label asp-for="Name" class="col-5 control-label font-dancing-script font-size-md"></label>
+                    <div class="col-5 text-center">
+                        <label asp-for="Name" class="control-label font-dancing-script font-size-md"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
                     <input asp-for="Name" class="col-7 form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group form-inline row">
                     <label asp-for="AmountPer" class="col-5 control-label font-dancing-script font-size-md"></label>
@@ -26,9 +36,11 @@
                     <span asp-validation-for="AmountPer" class="text-danger"></span>
                 </div>
                 <div class="form-group form-inline row">
-                    <label asp-for="Calories" class="col-5 control-label font-dancing-script font-size-md"></label>
+                    <div class="col-5 text-center">
+                        <label asp-for="Calories" class="control-label font-dancing-script font-size-md"></label>
+                        <span asp-validation-for="Calories" class="text-danger"></span>
+                    </div>
                     <input asp-for="Calories" class="col-7 form-control" />
-                    <span asp-validation-for="Calories" class="text-danger"></span>
                 </div>
                 <div class="form-group form-inline row">
                     <label asp-for="TotalFat" class="col-5 control-label font-dancing-script font-size-md"></label>
