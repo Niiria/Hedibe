@@ -19,7 +19,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-            <ul class="navbar-nav d-flex align-items-center justify-content-end flex-wrap ">
+            <ul class="navbar-nav d-flex align-items-center justify-content-end flex-wrap row">
                 @{
                     if (_userContextService.CheckLoggedUser())
                     {
@@ -32,23 +32,23 @@
                                 </a>
                             </li>
                         }
-                        <li class="dropdown">
-                            <button class="nav-link btn-clear text-dark d-flex align-items-center" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="dropdown col">
+                            <button class="nav-link btn-clear text-dark d-flex align-items-center text-nowrap" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="iconify" data-icon="fluent:food-24-filled"></span>
                                 Meals
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Catalog</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">User meals</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Create meal</a>
+                            <div class="dropdown-menu background-light_pink " aria-labelledby="dropdownMenuButton">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="Index">Catalog</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="UserMeals">User meals</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="Create" asp-route-reset="@true">Create meal</a>
                             </div>
                         </li>
-                        <li class="dropdown">
-                            <button class="nav-link btn-clear text-dark d-flex align-items-center" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="dropdown col">
+                            <button class="nav-link btn-clear text-dark d-flex align-items-center text-nowrap" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="iconify mx-1" data-icon="fa-solid:clipboard-list"></span>
                                 Shopping list
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu  background-light_pink" aria-labelledby="dropdownMenuButton">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingList" asp-action="Add" asp-route-reset="@true">New list</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">New product</a>
@@ -56,12 +56,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="UserProducts" >User products</a>
                             </div>
                         </li>
-                        <li class="dropdown">
-                            <button class="nav-link btn-clear text-dark d-flex align-items-center" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="dropdown col">
+                            <button class="nav-link btn-clear text-dark d-flex align-items-center text-nowrap" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="iconify" data-icon="bx:bxs-user-circle"></span>
                                 @_userContextService.GetUsername()
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu  background-light_pink" aria-labelledby="dropdownMenuButton">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Theme</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Help</a>
                                 <a class="nav-link text-dark d-flex align-items-center justify-content-center m-auto " asp-area="" asp-controller="Account" asp-action="Logout">

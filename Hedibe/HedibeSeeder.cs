@@ -44,6 +44,13 @@ namespace Hedibe
                     _dbContext.SaveChanges();
                 }
 
+                if (!_dbContext.Meals.Any())
+                {
+                    var meals = GetMeals();
+                    _dbContext.Meals.AddRange(meals);
+                    _dbContext.SaveChanges();
+                }
+
             }
         }
 
@@ -172,6 +179,44 @@ namespace Hedibe
             };
 
             return products;
+        }
+
+        private IEnumerable<Meal> GetMeals()
+        {
+            var meals = new List<Meal>()
+            {
+                new Meal { Name = "Healthy grapes", 
+                    Difficulty=2,
+                    CookingTime=20,
+                    OwnerId=1,
+                    Products=CreateProductsList(new List<string>{"Grapes"}),
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam rhoncus ex leo, sed pretium lacus ornare vel. Integer nec suscipit augue. Etiam efficitur vestibulum est vel placerat. Aenean efficitur ultricies mauris, nec suscipit quam mattis sit amet. Sed a erat sit amet felis lobortis ullamcorper vitae eu magna. Suspendisse sit amet finibus lorem, eu suscipit orci. Proin tellus nisi, sollicitudin et pharetra non, accumsan commodo purus. Etiam vitae malesuada augue. Sed sagittis iaculis pulvinar. Praesent pulvinar mauris tortor, ac tristique justo rutrum eu. Integer id libero ex." },
+                
+                new Meal { Name = "Beef with potatoes",
+                    Difficulty=3,
+                    CookingTime=130,
+                    OwnerId=2,
+                    Products=CreateProductsList(new List<string>{"Beef", "Potatoes" }),
+                    Description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam rhoncus ex leo, sed pretium lacus ornare vel. Integer nec suscipit augue. Etiam efficitur vestibulum est vel placerat. Aenean efficitur ultricies mauris, nec suscipit quam mattis sit amet. Sed a erat sit amet felis lobortis ullamcorper vitae eu magna. Suspendisse sit amet finibus lorem, eu suscipit orci. Proin tellus nisi, sollicitudin et pharetra non, accumsan commodo purus. Etiam vitae malesuada augue. Sed sagittis iaculis pulvinar. Praesent pulvinar mauris tortor, ac tristique justo rutrum eu. Integer id libero ex." },
+                
+                new Meal { Name = "Pork liver in spinach with grapes",
+                    Difficulty=5,
+                    CookingTime=210,
+                    Products=CreateProductsList(new List<string>{"Pork liver", "Spinach", "Grapes"}),
+                    OwnerId=3,
+                    Description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam rhoncus ex leo, sed pretium lacus ornare vel. Integer nec suscipit augue. Etiam efficitur vestibulum est vel placerat. Aenean efficitur ultricies mauris, nec suscipit quam mattis sit amet. Sed a erat sit amet felis lobortis ullamcorper vitae eu magna. Suspendisse sit amet finibus lorem, eu suscipit orci. Proin tellus nisi, sollicitudin et pharetra non, accumsan commodo purus. Etiam vitae malesuada augue. Sed sagittis iaculis pulvinar. Praesent pulvinar mauris tortor, ac tristique justo rutrum eu. Integer id libero ex."},
+            };
+            return meals;
+        }
+
+        private List<Product> CreateProductsList(List<string> productNames)
+        {
+            List<Product> productsList = new();
+            foreach (var productName in productNames)
+            {
+                productsList.Add(_dbContext.Products.FirstOrDefault(p => p.Name == productName));
+            }
+            return productsList;
         }
 
     }

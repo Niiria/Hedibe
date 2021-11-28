@@ -39,21 +39,7 @@ namespace Hedibe.Controllers
             return View(shoppingLists);
         }
 
-        public ActionResult AddSearchProduct(ShoppingListAddDto model, string redirect)
-        {
-            var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
-            if (productFromDb is not null)
-                ShoppingListProducts.Add(productFromDb);
-            return RedirectToAction(redirect, model);
-        }
-
-        public ActionResult RemoveSearchProduct(ShoppingListAddDto model, int itemId, string redirect)
-        {
-            var itemToRemove = ShoppingListProducts.FirstOrDefault(p => p.Id == itemId);
-            if (itemToRemove is not null)
-                ShoppingListProducts.Remove(itemToRemove);
-            return RedirectToAction(redirect, model);
-        }
+    
 
 
         // GET: ShoppingListController/Add
@@ -82,6 +68,22 @@ namespace Hedibe.Controllers
             ViewData["redirect"] = "Add";
 
             return View(model);
+        }
+
+        public ActionResult AddSearchProduct(ShoppingListAddDto model, string redirect)
+        {
+            var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
+            if (productFromDb is not null)
+                ShoppingListProducts.Add(productFromDb);
+            return RedirectToAction(redirect, model);
+        }
+
+        public ActionResult RemoveSearchProduct(ShoppingListAddDto model, int itemId, string redirect)
+        {
+            var itemToRemove = ShoppingListProducts.FirstOrDefault(p => p.Id == itemId);
+            if (itemToRemove is not null)
+                ShoppingListProducts.Remove(itemToRemove);
+            return RedirectToAction(redirect, model);
         }
 
         // POST: ShoppingListController/Add

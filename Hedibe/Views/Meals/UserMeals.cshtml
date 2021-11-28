@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Hedibe.Entities.Meal>
+@{
+    ViewData["Title"] = "Meals";
+
+    Pager pager = new Pager();
+    int pageNumber = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNumber = pager.CurrentPage;
+    }
+}
+<section class="meals_section d-flex flex-column flex-grow-1">
+    <div class="d-flex justify-content-between px-4 pt-2">
+        <h1 class="font-dancing-script m-0 text-dark light-shadow font-weight-bold">- Meals catalog -</h1>
+        <a class="nav-link text-dark d-flex align-items-center p-0 light-shadow" asp-controller="Products" asp-action="Add"><span class="mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own meal!</a>
+    </div>
+    <div class="d-flex justify-content-between flex-lg-row flex-column px-4">
+        <form class="form-inline my-2 my-lg-0 flex-nowrap" asp-action="Search" asp-route-redirect="@ViewData["redirect"]">
+            <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true" asp-route-redirect="@ViewData["redirect"]">
+                <span class="iconify" data-icon="bi:x-square-fill" data-width="32" data-height="32"></span>
+            </a>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchString" name="SearchString">
+            <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div class="d-flex flex-column flex-sm-row">
+            <h2 class="m-0 font-dancing-script text-dark mr-2 font-weight-bold light-shadow">Order by:</h2>
+            <ul class="list-unstyled d-flex text-white flex-wrap">
+                <li>
+                    <a class="font-dancing-script font-size-md text-dark mr-3 font-weight-bold light-shadow" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="Name"> Name 📃</a>
+                </li>
+                <li>
+                    <a class="font-dancing-script font-size-md text-dark mr-3 font-weight-bold light-shadow" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="TotalCalories"> Calories 🤤 </a>
+                </li>
+                <li>
+                    <a class="font-dancing-script font-size-md text-dark mr-3 font-weight-bold light-shadow" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="Difficulty"> Difficulty 🧐 </a>
+                </li>
+                <li>
+                    <a class="font-dancing-script font-size-md text-dark mr-3 font-weight-bold light-shadow" asp-action="Sort" asp-route-redirect="@ViewData["redirect"]" asp-route-sort="CookingTime"> Cooking Time ⏲️</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="flex-grow-1">
+        <div class="meals_grid list-unstyled">
+            @foreach (var item in Model)
+            {
+                <partial name="_MealTile" model="@item" />
+            }
+        </div>
+    </div>
+
+    <div>
+        <partial name="_pager" model="@pager" view-data="ViewData" />
+    </div>
+
+</section>
+
+
+

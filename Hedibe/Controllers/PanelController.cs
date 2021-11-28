@@ -59,11 +59,9 @@ namespace Hedibe.Controllers
             var data = productsTable.Skip(productsSkip).Take(pager.PageSize).ToList();
 
             this.ViewBag.Pager = pager;
-            ViewData["action"]= "VerifyProducts";
-
+            ViewData["redirect"] = "VerifyProducts";
 
             return View(data);
-      
         }
 
 
@@ -101,7 +99,6 @@ namespace Hedibe.Controllers
 
 
             return View(data);
-
         }
 
 

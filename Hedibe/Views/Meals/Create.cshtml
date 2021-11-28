@@ -1,48 +1,34 @@
-﻿@model Hedibe.Models.ShoppingLists.ShoppingListAddDto
+﻿@model Hedibe.Models.Meals.MealAddDto
 
 <section class="container py-3">
     <div class="text-center mb-3">
-        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own shopping list! 📋</h1>
-        <p class="text-black-50 m-0">- In this section you can create your own product shopping list. If you cannot find product you want, you can create your list and then from "Products list" add your product to your list -</p>
+        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own meal! 📋</h1>
+        <p class="text-black-50 m-0">- In this section you can create your own meal -</p>
         @if (ViewBag.AddInfo is not null)
         {
             if (ViewBag.AddInfo.Substring(0, 1) == "S")
             {
-    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
             }
 
             if (ViewBag.AddInfo.Substring(0, 1) == "F")
             {
-    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-x-fill"></span> @ViewBag.AddInfo 😔 </h2>
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-x-fill"></span> @ViewBag.AddInfo 😔 </h2>
             }
         }
     </div>
-
-    <form asp-action="Add" asp-route-redirect="@ViewData["redirect"]" class="m-2">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="d-flex flex-column">
-            <div class="form-group form-inline row">
-                    <div class="col-2 text-center">
-                        <label asp-for="Name" class="control-label font-dancing-script font-size-md">Name:</label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <input asp-for="Name" class="col-9 form-control" />
-                </div>
-                <div class="form-group form-inline row">
-                    <div class="col-2 text-center">
-                        <label asp-for="Description" class=" control-label font-dancing-script font-size-md">Description:</label>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <textarea asp-for="Description" class="col-9 form-control" rows="3" cols="80" style="resize: none;"></textarea>
-                </div>
+    <form asp-action="Create" asp-route-redirect="@ViewData["redirect"]" class="m-2">
+        <div>
+            <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Products used in recipe:</h2>
             <div class="form-group text-center">
-                <select id="searchProducts" asp-for="ProductId"  asp-items="@(new SelectList(Model.Products,"Id","Name"))">
+                <select id="searchProducts" asp-for="ProductId" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
                     <option value="0">Select Product</option>
                 </select>
                 <input class="btn btn-dark" type="submit" value="Add" asp-route-redirect="@ViewData["redirect"]" asp-action="AddSearchProduct" />
             </div>
 
             <div class="d-flex justify-content-center flex-column align-items-center">
+
                 @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
                 {
                     <div class="table-responsive">
@@ -113,17 +99,102 @@
                     </div>
                 }
             </div>
+        </div>
 
+        <div>
+            <div class="row">
+                <div class="col-12 col-sm-6  d-flex flex-column ">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="my-2">
+                            <h5>Meal name:</h5>
+                            <div class="form-group">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <input asp-for="Name" class="form-control" rows="3" cols="80" style="resize: none;" />
+                            </div>
+                        </div>
+                        <div class="d-flex my-2">
+                            <h5 class="mr-2  ">Verified:</h5>
+                            <div>
+                                <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                            </div>
+                        </div>
+                        <div class="my-2">
+                            <h5>Difficulty:</h5>
+                            <div class="form-group">
+                                <span asp-validation-for="Difficulty" class="text-danger"></span>
+                                <input asp-for="Difficulty" class="form-control" rows="3" cols="80" style="resize: none;" />
+                            </div>
+                        </div>
+                        <div class="my-2">
+                            <h5 class="m-0">Total Nutritional values:</h5>
+                            <ul>
+                                <li>
+                                    <p class="m-0 border-dark">Total Calories: @Model.CalculateTotalCalories()</p>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="my-2">
+                            <h5 class="m-0">Cooking time:</h5>
+                            <div class="form-group">
+                                <span asp-validation-for="CookingTime" class="text-danger"></span>
+                                <input asp-for="CookingTime" class="form-control" rows="3" cols="80" style="resize: none;" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 d-flex justify-content-center align-items-center ">
+                    <span class="iconify w-100 h-100" data-icon="ic:round-photo-size-select-large"></span>
+                </div>
+                <div class="p-3 w-100">
+                    <h5 class="m-0">Short description:</h5>
+                    <div class="form-group ">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                        <textarea asp-for="Description" class=" form-control w-100" rows="2" style="resize: none;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my-4">
+            <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Cooking recipe:</h2>
+            <article>
+                <div class="form-group">
+                    <div class="col-2 text-center">
+                        <span asp-validation-for="CookingDescription" class="text-danger"></span>
+                    </div>
+                    <textarea asp-for="CookingDescription" class="form-control" rows="5"  style="resize: none;"></textarea>
+                </div>
+            </article>
+        </div>
+
+
+
+
+
+        <div class="my-4">
+            <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Nutritional values:</h2>
+            <ul>
+                <li>
+                    Total Calories: @Model.CalculateTotalCalories()
+                </li>
+                <li>
+                    Total Fat: @Model.CalculateTotalFat()
+                </li>
+                <li>
+                    Total Protein: @Model.CalculateTotalProtein()
+                </li>
+                <li>
+                    Total Carbohydrate: @Model.CalculateTotalCarbohydrate()
+                </li>
+
+            </ul>
+        </div>
         <div class="form-group form-inline justify-content-center  ">
-            <input type="submit" class="btn btn-dark" value="Create List" />
+            <input type="submit" class="btn btn-dark" value="Create Meal" />
         </div>
     </form>
-    @*
-        <partial name="_ProductsList" model="ViewBag.searchProducts" />*@
-
-    
-
-
     <div class="">
         <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
             <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
@@ -133,6 +204,7 @@
     </div>
 
 </section>
+
 
 @section Scripts {
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

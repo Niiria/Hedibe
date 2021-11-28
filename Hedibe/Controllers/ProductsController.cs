@@ -21,31 +21,26 @@ namespace Hedibe.Controllers
             _userContextService = userContextService;
         }
 
-        // private static List<Product> productsTable = new();
+        private static SearchEngineHelper searchHelper = new();
 
-        private static string lastSortString = null;
-        private static string sortString = null;
-        private static bool sortDirection = true;
-        private static string searchValue = null;
-
-        
 
         // GET: ProductsController
+        [HttpGet]
         public ActionResult Index(int page=1)
         {
             List<Product> productsTable = new();
 
-            if (searchValue is null)
+            if (searchHelper.SearchValue is null)
                 productsTable = _context.Products.ToList();
             else
             {
-                ViewBag.SearchString = searchValue;
-                productsTable = _context.Products.Where(p => p.Name.ToLower().Contains(searchValue.ToLower())).ToList();
+                ViewBag.SearchString = searchHelper.SearchValue;
+                productsTable = _context.Products.Where(p => p.Name.ToLower().Contains(searchHelper.SearchValue.ToLower())).ToList();
             }
                 
 
-            if (sortString is not null)
-                productsTable = SortProductsTable(sortString, sortDirection ,productsTable);
+            if (searchHelper.SortString is not null)
+                productsTable = SortProductsTable(searchHelper.SortString, searchHelper.SortDirection, productsTable);
 
 
             int pageSize = 10;
@@ -76,16 +71,16 @@ namespace Hedibe.Controllers
 
             List<Product> productsTable = new();
 
-            if (searchValue is null)
+            if (searchHelper.SearchValue is null)
                 productsTable = _context.Products.Where(p => p.OwnerId == _userContextService.GetUserId()).ToList();
             else
             {
-                ViewBag.SearchString = searchValue;
-                productsTable = _context.Products.Where(p => p.OwnerId == _userContextService.GetUserId()).Where(p => p.Name.ToLower().Contains(searchValue.ToLower())).ToList();
+                ViewBag.SearchString = searchHelper.SearchValue;
+                productsTable = _context.Products.Where(p => p.OwnerId == _userContextService.GetUserId()).Where(p => p.Name.ToLower().Contains(searchHelper.SearchValue.ToLower())).ToList();
             }
 
-            if (sortString is not null)
-                productsTable = SortProductsTable(sortString, sortDirection, productsTable);
+            if (searchHelper.SortString is not null)
+                productsTable = SortProductsTable(searchHelper.SortString, searchHelper.SortDirection, productsTable);
 
             int pageSize = 10;
             if (page < 1)
@@ -230,40 +225,36 @@ namespace Hedibe.Controllers
 
         public IActionResult Search(string searchString, bool reset, string redirect)
         {
-            searchValue = searchString;
+            searchHelper.SearchValue = searchString;
 
-            if (searchString == "" || reset) 
-                searchValue = null;
-                sortString = null;
+            if (searchString == "" || reset)
+                searchHelper.SearchValue = null;
+                searchHelper.SortString = null;
             
             return RedirectToAction(redirect);
         }
 
         public IActionResult Sort(string sort, string redirect)
         {
-            sortString = sort;
-            if (sortString == lastSortString)
+            searchHelper.SortString = sort;
+            if (searchHelper.SortString == searchHelper.LastSortString)
             {
-                sortDirection = false;
-                lastSortString = null;
+                searchHelper.SortDirection = false;
+                searchHelper.LastSortString = null;
             }
             else
             {
-                sortDirection = true;
-                lastSortString = sortString;
+                searchHelper.SortDirection = true;
+                searchHelper.LastSortString = searchHelper.SortString;
             }
 
             return RedirectToAction(redirect);
         }
 
 
-        
-
-  
-
         private List<Product> SortProductsTable(string sortStr, bool sortDir ,List<Product> list)
         {
-            switch (sortString)
+            switch (searchHelper.SortString)
             {
                 case "Name":
                     if (sortDir)

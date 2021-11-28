@@ -8,9 +8,17 @@
     background-color: #fbfaf1;
 }
 
+.background-light_pink{
+    background-color: #feedfb
+}
+
 
 .font-size-md{
     font-size: 1.6rem;
+}
+
+.font-size-2rem {
+    font-size: 2rem;
 }
 
 .font-size-lg {
@@ -19,6 +27,14 @@
 
 .active{
     color: red;
+}
+
+.light-shadow {
+    text-shadow: 0px 0px 5px white;
+}
+
+.text-underline{
+    text-decoration:underline;
 }
 
 .verify-hover-success:hover {
@@ -108,7 +124,31 @@
     }
 }
 
+.meals_section {
+    background-image: url(../assets/Meals_BG.jpg);
+    background-size: cover;
+}
 
+.meals_grid {
+    display: grid;
+    
+}
+
+.meals_tile {
+    border-radius: 15px;
+    border: solid 1px black;
+    background: rgb(255, 241, 241, .90);
+}
+
+.meals_tile:hover {
+    -moz-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    transform: scale(1.02);
+    filter: brightness(80%);
+    text-decoration: none
+}
 
 .navbar-background-gradient {
     background: rgb(255,255,255);
@@ -118,7 +158,6 @@
 .login-background-cherries{
     background-image: url(../assets/Cherries_BG.jpg);
     background-size: cover;
-    
 }
 
 .home-h1-custom{
@@ -137,9 +176,28 @@
 
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 600px) {
     .home-h1-custom{
         font-size:4rem;
+    }
+    .meals_grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    
+}
+
+@media only screen and (min-width: 900px) {
+    .meals_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .meals_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
@@ -160,4 +218,6 @@ body {
     white-space: nowrap;
     line-height: 40px; 
 }
+
+
 

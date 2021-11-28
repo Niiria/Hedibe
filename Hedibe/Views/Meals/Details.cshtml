@@ -1,0 +1,188 @@
+﻿@model Hedibe.Entities.Meal
+@inject Hedibe.Services.IUserContextService _userContextService
+
+<section class="container py-3">
+    <div class="row py-2">
+        <div class="col-12 col-sm-6  d-flex flex-column justify-content-center">
+            <div class="d-flex align-items-center flex-column">
+                @if (_userContextService.GetUserId() == Model.OwnerId || _userContextService.GetRole() == "admin")
+                {
+                    <div class="border rounded ml-2">
+                        <a class="px-2 text-dark font-dancing-script font-size-md btn " asp-action="Edit" asp-route-id="@Model.Id" asp-controller="Meals" asp-route-redirect="@ViewData["redirect"]">
+                            Edit <span class="iconify verify-hover-success" data-icon="bx:bxs-edit" data-width="26" data-height="26"></span>
+                        </a>
+                        <a class="px-2 text-dark btn font-dancing-script font-size-md " asp-action="Delete" asp-route-id="@Model.Id" asp-controller="Meals" asp-route-redirect="@ViewData["redirect"]">
+                            Delete <span class="iconify verify-hover-danger" data-icon="fluent:delete-off-24-filled" data-width="26" data-height="26"></span>
+                        </a>
+                    </div>
+                }
+                <h1 class="font-dancing-script ">
+                    @Model.Name
+                </h1>
+
+            </div>
+            <div class="d-flex flex-column justify-content-center">
+                <div class="d-flex my-2">
+                    <h5 class="mr-2  ">Verified:</h5>
+                    @if (Model.Verified == true)
+                    {
+                        <div>
+                            <span class="iconify text-success ml-auto" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                        </div>
+
+                    }
+                </div>
+                <div class="my-2">
+                    <h5 class="m-0">Difficulty:</h5>
+                    <div class="flex flex-row">
+                        @for (int i = 1; i <= Model.Difficulty; i++)
+                        {
+                            <span class="iconify" data-icon="ant-design:star-filled"></span>
+                        }
+                        @for (int i = (int)Model.Difficulty; i < 5; i++)
+                        {
+                            <span class="iconify" data-icon="ant-design:star-outlined"></span>
+                        }
+                    </div>
+                </div>
+                <div class="my-2">
+                    <h5 class="m-0">Total Nutritional values:</h5>
+                    <ul>
+                        <li>
+                            <p class="m-0 border-dark">Total Calories: @Model.CalculateTotalCalories()</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="my-2">
+                    <h5 class="m-0">Cooking time:</h5>
+                    <ul>
+                        <li>
+                            <p class="m-0">@Model.CookingTimeInHourAndMinutes()</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center ">
+            <span class="iconify w-100 h-100" data-icon="ic:round-photo-size-select-large"></span>
+        </div>
+        <div class="p-3">
+            <h5 class="m-0">Short description:</h5>
+            <p class="text-black-50 m-0">@Model.Description</p>
+        </div>
+    </div>
+
+    <div class="my-4">
+        <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Cooking recipe:</h2>
+        <article>
+            @Model.CookingDescription
+        </article>
+    </div>
+
+
+    <div>
+        <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Products used in recipe:</h2>
+        <div class="d-flex justify-content-center flex-column align-items-center">
+
+            @if (Model.Products is not null && Model.Products.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th class="p-1" scope="col" style="width: 24%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Name </p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0">Calories</p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> TotalFat </p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Protein </p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0">Carbohydrate</p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 6%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Verified</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Products)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Calories)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.TotalFat)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Protein)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Carbohydrate)
+                                    </td>
+                                    <td>
+                                        @if (item.Verified == true)
+                                        {
+                                            <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
+                                        }
+
+                                        else
+                                        {
+                                            <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="my-4">
+        <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Nutritional values:</h2>
+        <ul>
+            <li>
+                Total Calories: @Model.CalculateTotalCalories()
+            </li>
+            <li>
+                Total Fat: @Model.CalculateTotalFat()
+            </li>
+            <li>
+                Total Protein: @Model.CalculateTotalProtein()
+            </li>
+            <li>
+                Total Carbohydrate: @Model.CalculateTotalCarbohydrate()
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="">
+        <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
+            <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
+            Back to List
+            <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>
+        </a>
+    </div>
+
+</section>
