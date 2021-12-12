@@ -1,77 +1,83 @@
 ﻿@model Hedibe.Models.Products.ProductAddDto
+@{
+    ViewData["Title"] = "AddProduct";
+}
 
-<section class="container py-3">
-    <div class="text-center">
-        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own product! 🍒</h1>
-        <p class="text-black-50 m-0">- In this section you can freely add your own products, but until they are verified by our administrators you can not see them in products tab -</p>
-        @if (ViewBag.AddInfo is not null)
-        {
-            if (ViewBag.AddInfo.Substring(0, 1) == "S")
+<section class="py-3 products_background flex-grow-1">
+    <div class="container ">
+        <div class="text-center">
+            <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own product! 🍒</h1>
+            <p class="text-black-50 m-0">- In this section you can freely add your own products, but until they are verified by our administrators you can not see them in products tab -</p>
+            @if (ViewBag.AddInfo is not null)
             {
-                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
-            }
+                if (ViewBag.AddInfo.Substring(0, 1) == "S")
+                {
+                    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+                }
 
-            if (ViewBag.AddInfo.Substring(0, 1) == "F")
-            {
-                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+                if (ViewBag.AddInfo.Substring(0, 1) == "F")
+                {
+                    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+                }
             }
-        }
-    </div>
-  
-    <form asp-action="Add" class="m-2">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="d-flex justify-content-around flex-md-row flex-column">
-            <span class="iconify" style="width:320px; height:320px" data-icon="ic:round-photo-size-select-large"></span>
-            <div class="d-flex flex-column">
-                <div class="form-group form-inline row">
-                    <div class="col-5 text-center">
-                        <label asp-for="Name" class="control-label font-dancing-script font-size-md"></label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <input asp-for="Name" class="col-7 form-control" />
-                </div>
-                <div class="form-group form-inline row">
-                    <label asp-for="AmountPer" class="col-5 control-label font-dancing-script font-size-md"></label>
-                    <input asp-for="AmountPer" class="col-7 form-control" value="100" />
-                    <span asp-validation-for="AmountPer" class="text-danger"></span>
-                </div>
-                <div class="form-group form-inline row">
-                    <div class="col-5 text-center">
-                        <label asp-for="Calories" class="control-label font-dancing-script font-size-md"></label>
-                        <span asp-validation-for="Calories" class="text-danger"></span>
-                    </div>
-                    <input asp-for="Calories" class="col-7 form-control" />
-                </div>
-                <div class="form-group form-inline row">
-                    <label asp-for="TotalFat" class="col-5 control-label font-dancing-script font-size-md"></label>
-                    <input asp-for="TotalFat" class="col-7 form-control" />
-                    <span asp-validation-for="TotalFat" class="text-danger"></span>
-                </div>
+        </div>
 
-                <div class="form-group form-inline row">
-                    <label asp-for="Protein" class="col-5 control-label font-dancing-script font-size-md"></label>
-                    <input asp-for="Protein" class="col-7 form-control" />
-                    <span asp-validation-for="Protein" class="text-danger"></span>
-                </div>
-                <div class="form-group form-inline row">
-                    <label asp-for="Carbohydrate" class="col-5 control-label font-dancing-script font-size-md"></label>
-                    <input asp-for="Carbohydrate" class="col-7 form-control" />
-                    <span asp-validation-for="Carbohydrate" class="text-danger"></span>
-                </div>
-                <div class="form-group form-inline justify-content-center ">
-                    <input type="submit" value="Create" class="btn btn-dark " />
+        <form asp-action="Add" class="m-2">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="d-flex justify-content-around flex-md-row flex-column">
+                <span class="iconify" style="width:320px; height:320px" data-icon="ic:round-photo-size-select-large"></span>
+                <div class="d-flex flex-column">
+                    <div class="form-group form-inline row">
+                        <div class="col-5 text-center">
+                            <label asp-for="Name" class="control-label font-weight-bold font-dancing-script font-size-md"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <input asp-for="Name" class="col-7 form-control" />
+                    </div>
+                    <div class="form-group form-inline row">
+                        <label asp-for="AmountPer" class="col-5 control-label font-dancing-script font-size-md"></label>
+                        <input asp-for="AmountPer" class="col-7 form-control" value="100" />
+                        <span asp-validation-for="AmountPer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-inline row">
+                        <div class="col-5 text-center">
+                            <label asp-for="Calories" class="control-label font-dancing-script font-size-md"></label>
+                            <span asp-validation-for="Calories" class="text-danger"></span>
+                        </div>
+                        <input asp-for="Calories" class="col-7 form-control" />
+                    </div>
+                    <div class="form-group form-inline row">
+                        <label asp-for="TotalFat" class="col-5 control-label font-dancing-script font-size-md"></label>
+                        <input asp-for="TotalFat" class="col-7 form-control" />
+                        <span asp-validation-for="TotalFat" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group form-inline row">
+                        <label asp-for="Protein" class="col-5 control-label font-dancing-script font-size-md"></label>
+                        <input asp-for="Protein" class="col-7 form-control" />
+                        <span asp-validation-for="Protein" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-inline row">
+                        <label asp-for="Carbohydrate" class="col-5 control-label font-dancing-script font-size-md"></label>
+                        <input asp-for="Carbohydrate" class="col-7 form-control" />
+                        <span asp-validation-for="Carbohydrate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-inline justify-content-center ">
+                        <input type="submit" value="Create" class="btn btn-dark " />
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-    
+        </form>
 
-    <div class="">
-        <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
-            <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
-            Back to List
-            <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>
-        </a>
+
+        <div class="">
+            <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
+                <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
+                Back to List
+                <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>
+            </a>
+        </div>
     </div>
+    
 
 </section>

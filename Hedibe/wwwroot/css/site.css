@@ -8,6 +8,10 @@
     background-color: #fbfaf1;
 }
 
+.background_darken {
+    background: rgb(255, 241, 241, .60);
+}
+
 .background-light_pink{
     background-color: #feedfb
 }
@@ -124,11 +128,6 @@
     }
 }
 
-.meals_section {
-    background-image: url(../assets/Meals_BG.jpg);
-    background-size: cover;
-}
-
 .meals_grid {
     display: grid;
     
@@ -160,9 +159,34 @@
     background-size: cover;
 }
 
-.home-h1-custom{
-    font-size: 8rem;
+.home-background {
+    background-image: url(../assets/Home_BG.png);
+    background-size: cover;
 }
+
+.products_background {
+    background-color: white;
+    background-image: url(../assets/Leafs_opac_BG.jpg);
+    background-size: cover;
+}
+
+.meals_background {
+    background-color:white;
+    background-image: url(../assets/Table_opac_BG.jpg);
+    background-size: cover;
+}
+
+.shopping_list_background {
+    background-color: white;
+    background-image: url(../assets/Table_opac_BG.jpg);
+    background-size: cover;
+}
+
+.panel_background {
+    background-image: url(../assets/Technology_opac_BG.jpg);
+    background-size: cover;
+}
+
 
 
 
@@ -177,8 +201,8 @@
 
 
 @media only screen and (min-width: 600px) {
-    .home-h1-custom{
-        font-size:4rem;
+    .home-h1-custom {
+        font-size: 4rem;
     }
     .meals_grid {
         display: grid;
@@ -188,6 +212,10 @@
 }
 
 @media only screen and (min-width: 900px) {
+    .home-h1-custom {
+        font-size: 6rem;
+    }
+
     .meals_grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -195,6 +223,10 @@
 }
 
 @media only screen and (min-width: 1200px) {
+    .home-h1-custom {
+        font-size: 8rem;
+    }
+
     .meals_grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;

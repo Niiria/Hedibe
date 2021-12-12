@@ -1,6 +1,8 @@
 ﻿@model Hedibe.Models.ShoppingLists.ShoppingListAddDto
-
-<section class="container py-3">
+@{
+    ViewData["Title"] = "EditShoppingList";
+}
+<section class="container py-3 shopping_list_background">
     <div class="text-center mb-3">
         <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Update your shopping list! 📋🩹</h1>
         <p class="text-black-50 m-0">- In this section you can update your product shopping list. If you cannot find product you want, you can create your list and then from "Products list" add your product to your list -</p>
@@ -18,13 +20,13 @@
         }
     </div>
 
-    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]"  class="m-2">
-        <input asp-for="Id" hidden/>
+    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]" class="m-2">
+        <input asp-for="Id" hidden />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="d-flex flex-column">
-             <div class="form-group form-inline row">
+            <div class="form-group form-inline row">
                 <div class="col-2 text-center">
-                    <label asp-for="Name" class="control-label font-dancing-script font-size-md">Name:</label>
+                    <label asp-for="Name" class="control-label font-weight-bold font-dancing-script font-size-md">Name:</label>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <input asp-for="Name" class="col-9 form-control" />
@@ -37,90 +39,90 @@
                 <textarea asp-for="Description" class="col-9 form-control" rows="3" cols="80" style="resize: none;"></textarea>
             </div>
         </div>
-            <div class="form-group text-center">
-                <select id="searchProducts" asp-for="ProductId"  asp-items="@(new SelectList(Model.Products,"Id","Name"))">
-                    <option value="0">Select Product</option>
-                </select>
-                <input class="btn btn-dark" type="submit" value="Add" asp-route-redirect="@ViewData["redirect"]" asp-action="AddSearchProduct" />
-            </div>
+        <div class="form-group text-center">
+            <select id="searchProducts" asp-for="ProductId" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
+                <option value="0">Select Product</option>
+            </select>
+            <input class="btn btn-dark" type="submit" value="Add" asp-route-redirect="@ViewData["redirect"]" asp-action="AddSearchProduct" />
+        </div>
 
-            <div class="d-flex justify-content-center flex-column align-items-center">
-                @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
-                {
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead>
+        <div class="d-flex justify-content-center flex-column align-items-center">
+            @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th class="p-1" scope="col" style="width: 24%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Name </p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0">Calories</p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> TotalFat </p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Protein </p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 16%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0">Carbohydrate</p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 6%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Verified</p>
+                                </th>
+                                <th class="p-1" scope="col" style="width: 6%">
+                                    <p class="font-dancing-script font-size-md text-dark m-0"> Remove</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CurrentProducts)
+                            {
                                 <tr>
-                                    <th class="p-1" scope="col" style="width: 24%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Name </p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0">Calories</p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> TotalFat </p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Protein </p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0">Carbohydrate</p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 6%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Verified</p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 6%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Remove</p>
-                                    </th>
+                                    <td class="font-weight-bold">
+                                        @Html.DisplayFor(model => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Calories)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.TotalFat)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Protein)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Carbohydrate)
+                                    </td>
+                                    <td>
+                                        @if (item.Verified == true)
+                                        {
+                                            <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
+                                        }
+
+                                        else
+                                        {
+                                            <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <input typeof="text" class="btn btn-danger text-center m-0 p-0" style="height:26px; width:26px;" type="submit" asp-route-itemId="@item.Id" value="x" asp-route-redirect="@ViewData["redirect"]" asp-action="RemoveSearchProduct" />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.CurrentProducts)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Calories)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.TotalFat)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Protein)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Carbohydrate)
-                                        </td>
-                                        <td>
-                                            @if (item.Verified == true)
-                                            {
-                                                <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
-                                            }
+                            }
 
-                                            else
-                                            {
-                                                <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <input typeof="text" class="btn btn-danger text-center m-0 p-0" style="height:26px; width:26px;" type="submit" asp-route-itemId="@item.Id" value="x" asp-route-redirect="@ViewData["redirect"]" asp-action="RemoveSearchProduct" />
-                                        </td>
-                                    </tr>
-                                }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
 
-                            </tbody>
-                        </table>
-                    </div>
-                 }
-            </div>
-
-            <div class="form-group form-inline justify-content-center  ">
-                <input type="submit" class="btn btn-dark" value="Update List" />
-            </div>
+        <div class="form-group form-inline justify-content-center  ">
+            <input type="submit" class="btn btn-dark" value="Update List" />
+        </div>
     </form>
-  
+
 
     <div class="">
         <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">

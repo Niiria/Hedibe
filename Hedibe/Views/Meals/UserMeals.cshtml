@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Hedibe.Entities.Meal>
 @{
-    ViewData["Title"] = "Meals";
+    ViewData["Title"] = "UserMeals";
 
     Pager pager = new Pager();
     int pageNumber = 0;
@@ -10,14 +10,26 @@
         pageNumber = pager.CurrentPage;
     }
 }
-<section class="meals_section d-flex flex-column flex-grow-1">
+<section class="d-flex flex-column meals_background flex-grow-1">
     <div class="d-flex justify-content-between px-4 pt-2">
-        <h1 class="font-dancing-script m-0 text-dark light-shadow font-weight-bold">- Meals catalog -</h1>
-        <a class="nav-link text-dark d-flex align-items-center p-0 light-shadow" asp-controller="Products" asp-action="Add"><span class="mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own meal!</a>
+        <h1 class="font-dancing-script m-0 text-dark light-shadow font-weight-bold">- User Meals catalog -</h1>
+        <a class="nav-link text-dark d-flex align-items-center p-0 light-shadow" asp-controller="Meals" asp-action="Create" asp-route-reset="@true"><span class="mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own meal!</a>
     </div>
+    @if (ViewBag.AddInfo is not null)
+    {
+        if (ViewBag.AddInfo.Substring(0, 1) == "S")
+        {
+            <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success light-shadow"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+        }
+
+        if (ViewBag.AddInfo.Substring(0, 1) == "F")
+        {
+            <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger light-shadow"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+        }
+    }
     <div class="d-flex justify-content-between flex-lg-row flex-column px-4">
         <form class="form-inline my-2 my-lg-0 flex-nowrap" asp-action="Search" asp-route-redirect="@ViewData["redirect"]">
-            <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true" asp-route-redirect="@ViewData["redirect"]">
+            <a class="text-dark my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true" asp-route-redirect="@ViewData["redirect"]">
                 <span class="iconify" data-icon="bi:x-square-fill" data-width="32" data-height="32"></span>
             </a>
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchString" name="SearchString">
@@ -46,7 +58,7 @@
         <div class="meals_grid list-unstyled">
             @foreach (var item in Model)
             {
-                <partial name="_MealTile" model="@item" />
+                <partial name="_MealTile" model="@item" view-data="ViewData" />
             }
         </div>
     </div>

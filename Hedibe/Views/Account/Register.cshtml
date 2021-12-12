@@ -1,17 +1,27 @@
 ﻿@model Hedibe.Models.Account.RegisterUserDto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Register";
 }
 
 
 <section class="login-background-cherries flex-grow-1">
-
     <div class="container mt-4">
-
         <div class="row w-100 m-0">
             <div class="col-md-4 col-12">
                 <h1 class="font-dancing-script font-size-lg text-center border-bottom border-dark py-2">Register</h1>
+                @if (ViewBag.AddInfo is not null)
+                {
+                    if (ViewBag.AddInfo.Substring(0, 1) == "S")
+                    {
+                        <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+                    }
+
+                    if (ViewBag.AddInfo.Substring(0, 1) == "F")
+                    {
+                        <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+                    }
+                }
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -20,14 +30,20 @@
                         <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Email" class="control-label font-dancing-script font-size-md">Email:</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Password" class="control-label font-dancing-script font-size-md">Password:</label>
-                        <input asp-for="Password" class="form-control" />
+                        <input asp-for="Password" class="form-control" type="password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
 
                     </div>
                     <div class="form-group">
                         <label asp-for="ConfirmPassword" class="control-label font-dancing-script font-size-md">Confirm Password:</label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <input asp-for="ConfirmPassword" class="form-control" type="password" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-group d-flex justify-content-center">

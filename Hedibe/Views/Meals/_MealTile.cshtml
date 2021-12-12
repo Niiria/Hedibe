@@ -1,5 +1,5 @@
 ﻿@model Hedibe.Entities.Meal
-<a asp-action="Details" asp-controller="Meals" asp-route-Id="@Model.Id" class="text-dark position-relative p-2 meals_tile justify-content-center align-items-center m-2">
+<a asp-action="Details" asp-controller="Meals" asp-route-Id="@Model.Id" asp-route-redirect="@ViewData["redirect"]" class="text-dark position-relative p-2 meals_tile justify-content-center align-items-center m-2">
     <div class="d-flex align-items-center justify-content-center">
         <div class="mx-2">
             @if (Model.Verified == true)
@@ -12,7 +12,7 @@
                 <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
             }
         </div>
-        <h2 class="font-dancing-script text-center m-0">@Model.Name  </h2>
+        <h2 class="font-dancing-script font-weight-bold text-center m-0">@Model.Name  </h2>
     </div>
         <div class="d-flex flex-row justify-content-around w-100 px-3 ">
             <div class="m-2">
@@ -41,30 +41,3 @@
         
 </a>
 
-
-@* <td>
-        @Html.DisplayFor(model => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(model => item.Calories)
-    </td>
-    <td>
-        @Html.DisplayFor(model => item.TotalFat)
-    </td>
-    <td>
-        @Html.DisplayFor(model => item.Protein)
-    </td>
-    <td>
-        @Html.DisplayFor(model => item.Carbohydrate)
-    </td>
-    <td>
-        @if (item.Verified == true)
-        {
-            <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
-        }
-
-        else
-        {
-            <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
-        }
-    </td>*@

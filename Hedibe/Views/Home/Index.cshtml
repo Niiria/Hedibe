@@ -2,19 +2,20 @@
     ViewData["Title"] = "Home";
 }
 
-<section class="text-center w-100 h-100  flex-grow-1  pt-4">
-    <h1 id="home1" class="position-relative mb-5 font-dancing-script home-h1-custom  ">Welcome!</h1>
-    <p id="home2" class="position-relative mb-0"> Let us help you with your diet! 😋</p>
-    <p id="home3" class="position-relative mb-0">"Live better feel better!" </p>
-    <div class="position-relative mt-5" id="home4">
-        <h4 class="font-dancing-script font-size-md" >Join us today for <strong>FREE</strong></h4>
-        <form class="row align-content-between justify-content-center w-100">
-            <button id="home-btn1" class="btn btn-dark col-3 col-lg-2 mx-2" asp-controller="Account" asp-action="Login">Login</button>
-            <button id="home-btn2"class="btn btn-dark col-3 col-lg-2 mx-2" asp-controller="Account" asp-action="Register" >Register</button>
-        </form>
-        
+<section class="text-center w-100 h-100 home-background flex-grow-1 d-flex align-items-center  pt-4">
+    <div class="container">
+        <h1 id="home1" class="position-relative mb-5 font-dancing-script home-h1-custom  ">Welcome!</h1>
+        <p id="home2" class="position-relative mb-0"> Let us help you with your diet! 😋</p>
+        <p id="home3" class="position-relative mb-0">"Live better feel better!" </p>
+        <div class="position-relative mt-5" id="home4">
+            <h4 class="font-dancing-script font-size-md">Join us today for <strong>FREE</strong></h4>
+            <form class="row align-content-between justify-content-center w-100">
+                <button id="home-btn1" class="btn btn-dark col-3 col-lg-2 mx-2" asp-controller="Account" asp-action="Login">Login</button>
+                <button id="home-btn2" class="btn btn-dark col-3 col-lg-2 mx-2" asp-controller="Account" asp-action="Register">Register</button>
+            </form>
+
+        </div>
     </div>
- 
 </section>
 
 @section scripts{

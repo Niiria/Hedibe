@@ -1,0 +1,30 @@
+﻿@model Hedibe.Models.Account.RegisterUserDto
+<tr>
+    <form class="" asp-action="EditUser" asp-controller="Account" asp-route-id="@Model.Id" asp-route-redirect="@ViewData["redirect"]">
+    <td class="font-weight-bold">
+        <input asp-for="Username" class="form-control" value="@Model.Username" />
+    </td>
+    <td>
+        <input asp-for="Password" class="form-control" value="****" />
+    </td>
+    <td>
+        <input asp-for="ConfirmPassword" class="form-control" value="" />
+    </td>
+    <td>
+        <input asp-for="Email" class="form-control" style="min-width:150px" value="@Model.Email" />
+    </td>
+    <td>
+        <select asp-for="RoleId" asp-items="Html.GetEnumSelectList<Enums.Roles>()">
+            <option>@{var roleName = (Enums.Roles)Model.RoleId;} @roleName</option>
+        </select>
+    </td>
+    <td>
+        <button class="px-2 text-dark btn-clear" type="submit"><span class="iconify verify-hover-success" data-icon="bx:bxs-edit" data-width="26" data-height="26"></span></button>
+    </td>
+    <td>
+        <a class="px-2 text-dark btn-clear" asp-action="DeleteUser" asp-route-id="@Model.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@ViewData["page"]">
+            <span class="iconify verify-hover-danger" data-icon="fluent:delete-off-24-filled" data-width="26" data-height="26"></span>
+        </a>
+    </td>
+    </form>
+</tr>

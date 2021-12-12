@@ -1,63 +1,68 @@
 ﻿@model IEnumerable<Hedibe.Entities.ShoppingList>
-
-<section class="container">
-    <div class="d-flex justify-content-between px-4 py-3">
-        <h1 class="font-dancing-script m-0">- Browse shopping lists-</h1>
-    </div>
-    @if (ViewBag.AddInfo is not null)
-    {
-        if (ViewBag.AddInfo.Substring(0, 1) == "S")
+@{
+    ViewData["Title"] = "ShoppingLists";
+}
+<section class="shopping_list_background flex-grow-1 py-1">
+    <div class="container ">
+        <div class="d-flex justify-content-between px-4 py-3">
+            <h1 class="font-dancing-script m-0">- Browse user shopping lists-</h1>
+        </div>
+        @if (ViewBag.AddInfo is not null)
         {
-            <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
-        }
+            if (ViewBag.AddInfo.Substring(0, 1) == "S")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
+            }
 
-        if (ViewBag.AddInfo.Substring(0, 1) == "F")
-        {
-            <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+            if (ViewBag.AddInfo.Substring(0, 1) == "F")
+            {
+                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😔</h2>
+            }
         }
-    }
-    <div class="table-responsive">
-        <table class="table text-center">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Products</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive table-dark rounded background_darken mb-2">
+            <table class="table text-center">
+                <thead>
                     <tr>
-                        <td>
-                            <a typeof="text" asp-route-id="@item.Id" asp-action="Edit">
-                                @item.Name
-                            </a>
-                        </td>
-                        <td>@item.Description</td>
-                        <td class="text-info cursor-help" data-toggle="tooltip" data-placement="bottom" title="@foreach (var product in item.Products)
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Products</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="font-weight-bold">
+                                <a typeof="text" asp-route-id="@item.Id" asp-action="Edit">
+                                    @item.Name
+                                </a>
+                            </td>
+                            <td>@item.Description</td>
+                            <td class="text-info cursor-help" data-toggle="tooltip" data-placement="bottom" title="@foreach (var product in item.Products)
                     {<>@product.Name </>
                     }
                     ">
-                            <strong>@item.Products.Count</strong>
-                        </td>
-                        <td>
-                            <a typeof="text" asp-route-id="@item.Id" asp-action="Edit">
-                                <span class="iconify text-dark verify-hover-success" data-icon="bx:bxs-edit" data-width="26" data-height="26"></span>
-                            </a>
-                        </td>
-                        <td>
-                            <a typeof="text" asp-route-id="@item.Id" asp-action="Delete">
-                                <span class="iconify text-dark verify-hover-danger" data-icon="fluent:delete-off-24-filled" data-width="26" data-height="26"></span>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                                <strong>@item.Products.Count</strong>
+                            </td>
+                            <td>
+                                <a typeof="text" asp-route-id="@item.Id" asp-action="Edit">
+                                    <span class="iconify text-dark verify-hover-success" data-icon="bx:bxs-edit" data-width="26" data-height="26"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a typeof="text" asp-route-id="@item.Id" asp-action="Delete">
+                                    <span class="iconify text-dark verify-hover-danger" data-icon="fluent:delete-off-24-filled" data-width="26" data-height="26"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
+  
 </section>
 
 

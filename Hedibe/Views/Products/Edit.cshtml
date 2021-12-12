@@ -1,6 +1,9 @@
 ﻿@model Hedibe.Entities.Product
+@{
+    ViewData["Title"] = "EditProduct";
+}
 
-<section class="container py-3">
+<section class="container py-3 products_background">
     <div class="text-center">
         <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Update product! 🩹</h1>
         <p class="text-black-50 m-0">- In this section you can freely add your own products, but until they are verified by our administrators you can not see them in products tab -</p>
@@ -18,7 +21,7 @@
         }
     </div>
 
-    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@ViewData["page"]"class="m-2">
+    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@ViewData["page"]" class="m-2">
         <input asp-for="Id" hidden />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="d-flex justify-content-around flex-md-row flex-column">
@@ -26,7 +29,7 @@
             <div class="d-flex flex-column">
                 <div class="form-group form-inline row">
                     <div class="col-5 text-center">
-                        <label asp-for="Name" class="control-label font-dancing-script font-size-md"></label>
+                        <label asp-for="Name" class="control-label font-weight-bold font-dancing-script font-size-md"></label>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <input asp-for="Name" class="col-7 form-control" />

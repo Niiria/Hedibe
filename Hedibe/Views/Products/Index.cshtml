@@ -10,7 +10,7 @@
         pageNumber = pager.CurrentPage;
     }
 }
-<section>
+<section class="flex-grow-1 products_background">
     <div class="d-flex justify-content-between px-4 pt-2 flex-column flex-sm-row">
         <h1 class="font-dancing-script m-0">- @ViewData["Title"] -</h1>
         <h2 class="m-0">🍒🍎🍓🥬🥦</h2>
@@ -25,7 +25,7 @@
         </form>
         <a class="nav-link text-dark d-flex align-items-center p-0" asp-controller="Products" asp-action="Add"><span class=" mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own products!</a>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive table-dark background_darken mb-2">
         <table class="table text-center">
             <thead>
                 <tr>
@@ -54,7 +54,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="font-weight-bold">
                             @Html.DisplayFor(model => item.Name)
                         </td>
                         <td>

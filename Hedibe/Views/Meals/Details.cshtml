@@ -1,7 +1,11 @@
 ﻿@model Hedibe.Entities.Meal
 @inject Hedibe.Services.IUserContextService _userContextService
 
-<section class="container py-3">
+@{
+    ViewData["Title"] = "MealDetails";
+}
+
+<section class="container py-3 meals_background">
     <div class="row py-2">
         <div class="col-12 col-sm-6  d-flex flex-column justify-content-center">
             <div class="d-flex align-items-center flex-column">
@@ -121,7 +125,7 @@
                             @foreach (var item in Model.Products)
                             {
                                 <tr>
-                                    <td>
+                                    <td class="font-weight-bold">
                                         @Html.DisplayFor(model => item.Name)
                                     </td>
                                     <td>
@@ -178,7 +182,7 @@
     </div>
 
     <div class="">
-        <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
+        <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="@ViewData["redirect"]">
             <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
             Back to List
             <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>

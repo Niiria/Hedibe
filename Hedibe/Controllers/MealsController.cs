@@ -5,6 +5,7 @@ using Hedibe.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Hedibe.Controllers
                 mealsTable = SortMealsTable(searchHelper.SortString, searchHelper.SortDirection, mealsTable);
 
 
-            int pageSize = 9;
+            int pageSize = 6;
             if (page < 1)
                 page = 1;
 
@@ -84,7 +85,7 @@ namespace Hedibe.Controllers
             if (searchHelper.SortString is not null)
                 mealsTable = SortMealsTable(searchHelper.SortString, searchHelper.SortDirection, mealsTable);
 
-            int pageSize = 10;
+            int pageSize = 6;
             if (page < 1)
                 page = 1;
 
@@ -131,9 +132,20 @@ namespace Hedibe.Controllers
 
         public ActionResult AddSearchProduct(MealAddDto model, string redirect)
         {
+            if (MealProducts.FirstOrDefault(p=>p.Id == model.ProductId) is not null)
+            {
+                TempData["AddInfo"] = "Failed, your product already is in the list!";
+                return RedirectToAction(redirect, model);
+            }
+
             var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
-            if (productFromDb is not null)
-                MealProducts.Add(productFromDb);
+            if (productFromDb is null)
+            {
+                TempData["AddInfo"] = "Failed, product not found in the database!";
+                return RedirectToAction(redirect, model);
+            }
+                
+            MealProducts.Add(productFromDb);
             return RedirectToAction(redirect, model);
         }
 
@@ -172,62 +184,128 @@ namespace Hedibe.Controllers
 
                 _context.Meals.Attach(MealToDb);
                 await _context.SaveChangesAsync();
+                MealProducts = new();
                 TempData["AddInfo"] = "Succesfully created your meal!";
-                return RedirectToAction("Create", model);
+                return RedirectToAction("Create");
             }
             TempData["AddInfo"] = "Failed to created your meal!";
             return RedirectToAction("Create", model);
         }
 
 
-        public ActionResult Details(int? Id)
+        public ActionResult Details(int? Id, string redirect)
         {
             var model = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == Id);
             if (model is null)
                 RedirectToAction("Index");
+
+            ViewData["redirect"] = redirect;
+
             return View(model);
         }
 
 
-        // GET: MealsController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Meals/Edit/5
+
+        public ActionResult Edit(MealAddDto model)
         {
-            return View();
+            if (TempData["AddInfo"] is not null)
+                ViewBag.AddInfo = TempData["AddInfo"];
+            else
+                ViewBag.AddInfo = null;
+
+            ViewData["redirect"] = "Edit";
+
+            if (model.Name is null && model.Description is null)
+            {
+                var mealFromDb = _context.Meals.Include(p => p.Products).FirstOrDefault(m => m.Id == model.Id);
+                if (mealFromDb is null)
+                    return RedirectToAction("Add");
+
+                MealAddDto mealToUpdate = new()
+                {
+                    Id = mealFromDb.Id,
+                    Name = mealFromDb.Name,
+                    Difficulty = mealFromDb.Difficulty,
+                    Description = mealFromDb.Description,
+                    CookingTime = mealFromDb.CookingTime,
+                    CookingDescription = mealFromDb.CookingDescription,
+                    OwnerId = mealFromDb.OwnerId,
+                    Verified = mealFromDb.Verified,
+                    CurrentProducts = mealFromDb.Products,
+                    Products = _context.Products.ToList()
+                };
+
+                MealProducts = mealFromDb.Products;
+                return View(mealToUpdate);
+            }
+
+            if (model.Products is null)
+            {
+                var productsTable = _context.Products.ToList();
+                if (productsTable is not null)
+                    model.Products = productsTable;
+            }
+            model.CurrentProducts = MealProducts;
+
+
+            return View(model);
+
         }
 
-        // POST: MealsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+
+        // POST: Meals/Edit/5
+        [HttpPost, ActionName("Edit")]
+        public async Task<IActionResult> EditMeal(MealAddDto model)
+        {
+            var MealFromDb = _context.Meals.Include(p => p.Products).FirstOrDefault(m => m.Id == model.Id);
+            if (MealFromDb is null)
+                return RedirectToAction("Edit");
+
+            ViewBag.AddInfo = null;
+            if (ModelState.IsValid)
+            {
+                _context.Meals.Attach(MealFromDb);
+
+                MealFromDb.Name = model.Name;
+                MealFromDb.Difficulty = model.Difficulty;
+                MealFromDb.Description = model.Description;
+                MealFromDb.CookingTime = model.CookingTime;
+                MealFromDb.CookingDescription = model.CookingDescription;
+                MealFromDb.Products.Clear();
+
+                foreach (var item in MealProducts)
+                {
+                    var itemFromDb = _context.Products.FirstOrDefault(i => i.Id == item.Id);
+                    MealFromDb.Products.Add(itemFromDb);
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["AddInfo"] = "Succesfully updated your meal!";
+                return RedirectToAction("Edit", model);
+            }
+            TempData["AddInfo"] = "Failed to add your meal!";
+            return RedirectToAction("Edit", model);
+        }
+
+        // GET: Meals/Delete/5
+        public async Task<IActionResult> Delete(int id, string redirect)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                var mealFromDb = _context.Meals.FirstOrDefault(m => m.Id == id);
+                if (mealFromDb is null)
+                    return RedirectToAction("Index");
 
-        // GET: MealsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: MealsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                _context.Meals.Remove(mealFromDb);
+                await _context.SaveChangesAsync();
+                TempData["AddInfo"] = "Succesfully deleted meal!";
+                return RedirectToAction(redirect);
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                TempData["AddInfo"] = "Failed to delete meal!";
+                return RedirectToAction("Details", id);
             }
         }
 
@@ -288,12 +366,6 @@ namespace Hedibe.Controllers
                         return list.OrderBy(o => o.CookingTime).ToList();
                     else
                         return list.OrderByDescending(o => o.CookingTime).ToList();
-
-                /*   case "Carbohydrate":
-                       if (sortDir)
-                           return list.OrderBy(o => o.Carbohydrate).ToList();
-                       else
-                           return list.OrderByDescending(o => o.Carbohydrate).ToList();*/
 
                 default:
                     break;

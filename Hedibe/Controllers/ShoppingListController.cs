@@ -72,9 +72,20 @@ namespace Hedibe.Controllers
 
         public ActionResult AddSearchProduct(ShoppingListAddDto model, string redirect)
         {
+            if (ShoppingListProducts.FirstOrDefault(p => p.Id == model.ProductId) is not null)
+            {
+                TempData["AddInfo"] = "Failed, your product already is in the list!";
+                return RedirectToAction(redirect, model);
+            }
+
             var productFromDb = _context.Products.FirstOrDefault(p => p.Id == model.ProductId);
-            if (productFromDb is not null)
-                ShoppingListProducts.Add(productFromDb);
+            if (productFromDb is null)
+            {
+                TempData["AddInfo"] = "Failed, product not found in the database!";
+                return RedirectToAction(redirect, model);
+            }
+
+            ShoppingListProducts.Add(productFromDb);
             return RedirectToAction(redirect, model);
         }
 
@@ -111,12 +122,7 @@ namespace Hedibe.Controllers
             return RedirectToAction("Add", model);
         }
 
-
-
-
-
         // GET: ShoppingListController/Edit/5
-
         public ActionResult Edit(ShoppingListAddDto model)
         {
             if (TempData["AddInfo"] is not null)
@@ -160,9 +166,9 @@ namespace Hedibe.Controllers
 
         // POST: ShoppingListController/Edit/5
         [HttpPost, ActionName("Edit")]
-        public async Task<IActionResult> EditShoppingList(ShoppingListAddDto dto)
+        public async Task<IActionResult> EditShoppingList(ShoppingListAddDto model)
         {
-            var shoppingListFromDb = _context.ShoppingLists.Include(p => p.Products).FirstOrDefault(sl => sl.Id == dto.Id);
+            var shoppingListFromDb = _context.ShoppingLists.Include(p => p.Products).FirstOrDefault(sl => sl.Id == model.Id);
             if (shoppingListFromDb is null)
                 return RedirectToAction("Edit");
 
@@ -171,9 +177,9 @@ namespace Hedibe.Controllers
             {
                 _context.ShoppingLists.Attach(shoppingListFromDb);
             
-                shoppingListFromDb.Id = dto.Id;
-                shoppingListFromDb.Name = dto.Name;
-                shoppingListFromDb.Description = dto.Description;
+                shoppingListFromDb.Id = model.Id;
+                shoppingListFromDb.Name = model.Name;
+                shoppingListFromDb.Description = model.Description;
                 shoppingListFromDb.OwnerId = _userContextService.GetUserId();
                 shoppingListFromDb.Products.Clear();
 
@@ -185,10 +191,10 @@ namespace Hedibe.Controllers
 
                 await _context.SaveChangesAsync();
                 TempData["AddInfo"] = "Succesfully updated your shopping list!";
-                return RedirectToAction("Edit", dto);
+                return RedirectToAction("Edit", model);
             }
             TempData["AddInfo"] = "Failed to add your shopping list!";
-            return RedirectToAction("Edit", dto);
+            return RedirectToAction("Edit", model);
         }
 
         // GET: ShoppingListController/Delete/5

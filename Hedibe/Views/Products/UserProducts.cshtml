@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Hedibe.Entities.Product>
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "UserProducts";
 
     Pager pager = new Pager();
     int pageNumber = 0;
@@ -10,8 +10,8 @@
         pageNumber = pager.CurrentPage;
     }
 }
-<section>
-    <div class="d-flex justify-content-between px-4 pt-4 flex-column flex-sm-row">
+<section class="flex-grow-1 products_background">
+    <div class="d-flex justify-content-between forest_background px-4 pt-4 flex-column flex-sm-row">
         <h1 class="font-dancing-script m-0">- @ViewData["Title"] -</h1>
         @if (ViewBag.AddInfo is not null)
         {
@@ -40,7 +40,7 @@
     <div>
 
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive table-dark background_darken mb-2">
         <table class="table text-center">
             <thead>
                 <tr>
@@ -71,7 +71,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="font-weight-bold">
                             @Html.DisplayFor(model => item.Name)
                         </td>
                         <td>
@@ -103,9 +103,9 @@
             </tbody>
         </table>
     </div>
-        <div>
-            <partial name="_pager" model="@pager" view-data="ViewData" />
-        </div>
+    <div>
+        <partial name="_pager" model="@pager" view-data="ViewData" />
+    </div>
 
 </section>
 

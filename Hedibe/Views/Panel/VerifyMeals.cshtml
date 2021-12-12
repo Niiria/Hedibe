@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Hedibe.Entities.Meal>
+@{
+    ViewData["Title"] = "VerifyMeals";
+
+    Pager pager = new Pager();
+    int pageNumber = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNumber = pager.CurrentPage;
+    }
+}
+<section class="row m-0 meals_background">
+    <partial name="_PanelNavbar" />
+    <main class="col-md-9 ms-sm-auto col-lg-10">
+        <div class="pt-2">
+            <div class="d-flex justify-content-between flex-lg-row flex-column px-4">
+                <form class="form-inline my-2 my-lg-0 flex-nowrap" asp-action="Search" asp-route-redirect="@ViewData["redirect"]">
+                    <a class=" text-black-50 my-2 my-sm-0 mx-2" type="submit" asp-action="Search" asp-route-reset="@true" asp-route-redirect="@ViewData["redirect"]">
+                        <span class="iconify" data-icon="bi:x-square-fill" data-width="32" data-height="32"></span>
+                    </a>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value="@ViewBag.SearchString" name="SearchString">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <a class="nav-link text-dark d-flex align-items-center p-0" asp-controller="Meals" asp-action="Add"><span class=" mx-2 iconify" data-icon="akar-icons:circle-plus-fill"></span> Add your own products!</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th class="p-1" scope="col" style="width: 30%">
+                                <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Name" asp-route-redirect="@ViewData["redirect"]"> @Html.DisplayNameFor(model => model.Name) </a>
+                            </th>
+                            <th class="p-1" scope="col" style="width: 20%">
+                                <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="TotalCalories" asp-route-redirect="@ViewData["redirect"]">Calories </a>
+                            </th>
+                            <th class="p-1" scope="col" style="width: 20%">
+                                <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Difficulty" asp-route-redirect="@ViewData["redirect"]"> Difficulty </a>
+                            </th>
+                            <th class="p-1" scope="col" style="width: 20%">
+                                <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="CookingTime" asp-route-redirect="@ViewData["redirect"]"> Cooking time </a>
+                            </th>
+                            <th class="p-1" scope="col" style="width: 10%">
+                                <a class="font-dancing-script font-size-md text-dark" asp-action="Sort" asp-route-sort="Verified" asp-route-redirect="@ViewData["redirect"]"> Verified </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td class="font-weight-bold">
+                                @Html.DisplayFor(model => item.Name)
+                            </td>
+                            <td>
+                                @item.CalculateTotalCalories()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Difficulty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.CookingTime)
+                            </td>
+                            <td>
+                                @if (item.Verified == true)
+                                {
+                                    <a class="px-2" asp-action="VerifyMeal" asp-route-id="@item.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@pager.CurrentPage">
+                                        <span class="iconify text-success verify-hover-danger" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
+                                    </a>
+                                }
+
+                                else
+                                {
+                                    <a class="px-2" asp-action="VerifyMeal" asp-route-id="@item.Id" asp-route-redirect="@ViewData["redirect"]" asp-route-page="@pager.CurrentPage">
+                                        <span class="iconify text-danger verify-hover-success" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                                    </a>
+
+                                }
+                            </td>
+                            
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <partial name="_pager" model="@pager" view-data="ViewData" />
+            </div>
+        </div>
+
+    </main>
+</section>
+
+
+
+
