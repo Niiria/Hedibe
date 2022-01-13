@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hedibe.Models.Account
 {
-    public class LoggedUser
+    public class LoggedUserDto
     {
         public int? Id { get; set; }
         public string Username { get; set; }

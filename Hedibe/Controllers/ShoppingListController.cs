@@ -64,7 +64,19 @@ namespace Hedibe.Controllers
                     model.Products = productsTable;
             }
 
+            if (model.Id != 0)
+            {
+                var meal = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == model.Id);
+                if (meal is not null)
+                {
+                    model.Name = $"Exported meal - {meal.Name}";
+                    ShoppingListProducts = meal.Products;
+                }
+            }
+                
+
             model.CurrentProducts = ShoppingListProducts;
+
             ViewData["redirect"] = "Add";
 
             return View(model);

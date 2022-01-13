@@ -1,6 +1,7 @@
 ﻿using Hedibe.Entities;
 using Hedibe.Models;
 using Hedibe.Models.Meals;
+using Hedibe.Models.ShoppingLists;
 using Hedibe.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -193,15 +194,24 @@ namespace Hedibe.Controllers
         }
 
 
-        public ActionResult Details(int? Id, string redirect)
+        public ActionResult Details(int? id, string redirect)
         {
-            var model = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == Id);
+            var model = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == id);
             if (model is null)
                 RedirectToAction("Index");
 
             ViewData["redirect"] = redirect;
 
             return View(model);
+        }
+
+        public ActionResult ExportToShoppingList(int? id)
+        {
+            var meal = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == id);
+            if (meal is null)
+                RedirectToAction("Index");
+
+            return RedirectToAction("Add", "ShoppingList", meal);
         }
 
 

@@ -5,18 +5,18 @@ namespace Hedibe.Services
 {
     public interface IUserContextService
     {
-        void LoginUser(LoggedUser model);
+        void LoginUser(LoggedUserDto model);
         void LogoutUser();
-        string GetLoggedUserRole();
-        bool CheckLoggedUser();
+        bool IsUserLoggedIn();
         string GetUsername();
         string GetRole();
         public int? GetUserId();
+        bool GrantAccessToRoles(params string[] access_roles);
     }
 
     public class UserContextService : IUserContextService
     {
-        private static LoggedUser LoggedUser = new();
+        private static LoggedUserDto LoggedUser = new();
 
         public int? GetUserId()
         {
@@ -36,7 +36,7 @@ namespace Hedibe.Services
 
             return LoggedUser.Role.Name;
         }
-        public void LoginUser(LoggedUser model)
+        public void LoginUser(LoggedUserDto model)
         {
             LoggedUser = model;
         }
@@ -46,18 +46,25 @@ namespace Hedibe.Services
             LoggedUser = new();
         }
 
-        public bool CheckLoggedUser()
+        public bool IsUserLoggedIn()
         {
             if (LoggedUser.Username is null) return false;
 
             return true;
         }
 
-        public string GetLoggedUserRole()
+        public bool GrantAccessToRoles(string[] access_roles)
         {
-            if (LoggedUser.Role is not null)
-                return LoggedUser.Role.Name;
-            return "";
+            if (IsUserLoggedIn())
+            {
+                foreach (var access_role in access_roles)
+                {
+                    if (access_role == LoggedUser.Role.Name)
+                        return true;
+                }
+            }
+            return false;
         }
+
     }
 }

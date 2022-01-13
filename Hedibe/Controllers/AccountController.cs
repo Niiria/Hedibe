@@ -71,12 +71,12 @@ namespace Hedibe.Controllers
 
                 _context.Users.Add(UserToDb);
                 await _context.SaveChangesAsync();
-                if (_userContextService.CheckLoggedUser())
+                if (_userContextService.IsUserLoggedIn())
                 {
-                    if (_userContextService.GetLoggedUserRole() == "admin")
+                    if (_userContextService.GetRole() == "admin")
                         return RedirectToAction("Dashboard", "Panel");
 
-                    if (_userContextService.GetLoggedUserRole() == "user")
+                    if (_userContextService.GetRole() == "user")
                         return RedirectToAction("Index", "Products");
                 }
                 TempData["AddInfo"] = "Succesfully registered user!";
@@ -137,7 +137,7 @@ namespace Hedibe.Controllers
                 return View(model);
             }
 
-            var loginUser = new LoggedUser()
+            var loginUser = new LoggedUserDto()
             {
                 Id = userFromDb.Id,
                 Username = userFromDb.Username,

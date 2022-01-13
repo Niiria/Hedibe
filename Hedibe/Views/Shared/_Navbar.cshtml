@@ -21,7 +21,7 @@
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
             <ul class="navbar-nav d-flex align-items-center justify-content-end flex-wrap row">
                 @{
-                    if (_userContextService.CheckLoggedUser())
+                    if (_userContextService.IsUserLoggedIn())
                     {
                         @if (_userContextService.GetRole() == "Admin" || _userContextService.GetRole() == "Mod")
                         {

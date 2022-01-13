@@ -28,7 +28,10 @@ namespace Hedibe.Controllers
 
         public IActionResult Dashboard()
         {
-            return View();
+            if(_userContextService.GrantAccessToRoles("Admin", "Moderator"))
+                return View();
+
+            return NotFound();
         }
 
         public IActionResult VerifyProducts(int page = 1)

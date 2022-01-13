@@ -48,8 +48,8 @@
                 <div class="d-flex justify-content-center flex-column align-items-center">
                     @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
                     {
-                        <div class="table-responsive">
-                            <table class="table text-center">
+                        <div class="table-responsive table-dark background_darken rounded-lg">
+                            <table class="table text-center ">
                                 <thead>
                                     <tr>
                                         <th class="p-1" scope="col" style="width: 24%">
@@ -117,14 +117,10 @@
                     }
                 </div>
 
-                <div class="form-group form-inline justify-content-center  ">
+                <div class="form-group form-inline justify-content-center pt-2 ">
                     <input type="submit" class="btn btn-dark" value="Create List" />
                 </div>
         </form>
-        @*
-        <partial name="_ProductsList" model="ViewBag.searchProducts" />*@
-
-
 
 
         <div class="">

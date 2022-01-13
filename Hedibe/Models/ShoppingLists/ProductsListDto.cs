@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hedibe.Models.ShoppingLists
 {
-    public class ProductsList
+    public class ProductsListDto
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
