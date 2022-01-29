@@ -3,210 +3,211 @@
     ViewData["Title"] = "EditMeal";
 }
 
-<section class="container py-3 meals_background">
-    <div class="text-center mb-3">
-        <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own meal! 📋</h1>
-        <p class="text-black-50 m-0">- In this section you can create your own meal -</p>
-        @if (ViewBag.AddInfo is not null)
-        {
-            if (ViewBag.AddInfo.Substring(0, 1) == "S")
+<section class="d-flex flex-column leafs_background flex-grow-1">
+    <div class="container py-3">
+        <div class="text-center mb-3">
+            <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own meal! 📋</h1>
+            <p class="text-black-50 m-0">- In this section you can create your own meal -</p>
+            @if (ViewBag.AddInfo is not null)
             {
-                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
-            }
-
-            if (ViewBag.AddInfo.Substring(0, 1) == "F")
-            {
-                <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-x-fill"></span> @ViewBag.AddInfo 😔 </h2>
-            }
-        }
-    </div>
-    <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]" class="m-2">
-        <input asp-for="Id" hidden />
-        <div>
-            <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Products used in recipe:</h2>
-            <div class="form-group text-center">
-                <select id="searchProducts" asp-for="ProductId" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
-                    <option value="0">Select Product</option>
-                </select>
-                <input class="btn btn-dark" type="submit" value="Add" asp-route-redirect="@ViewData["redirect"]" asp-action="AddSearchProduct" />
-            </div>
-
-            <div class="d-flex justify-content-center flex-column align-items-center">
-
-                @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
+                if (ViewBag.AddInfo.Substring(0, 1) == "S")
                 {
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead>
-                                <tr>
-                                    <th class="p-1" scope="col" style="width: 24%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Name </p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0">Calories</p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> TotalFat </p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Protein </p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 16%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0">Carbohydrate</p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 6%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Verified</p>
-                                    </th>
-                                    <th class="p-1" scope="col" style="width: 6%">
-                                        <p class="font-dancing-script font-size-md text-dark m-0"> Remove</p>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.CurrentProducts)
-                                {
-                                    <tr>
-                                        <td class="font-weight-bold">
-                                            @Html.DisplayFor(model => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Calories)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.TotalFat)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Protein)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(model => item.Carbohydrate)
-                                        </td>
-                                        <td>
-                                            @if (item.Verified == true)
-                                            {
-                                                <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
-                                            }
-
-                                            else
-                                            {
-                                                <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <input typeof="text" class="btn btn-danger text-center m-0 p-0" style="height:26px; width:26px;" type="submit" asp-route-itemId="@item.Id" value="x" asp-route-redirect="@ViewData["redirect"]" asp-action="RemoveSearchProduct" />
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
+                    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-success"><span class="iconify" data-icon="akar-icons:circle-check-fill"></span> @ViewBag.AddInfo 😊</h2>
                 }
+
+                if (ViewBag.AddInfo.Substring(0, 1) == "F")
+                {
+                    <h2 class="font-dancing-script d-flex align-items-center justify-content-center text-danger"><span class="iconify" data-icon="akar-icons:circle-x-fill"></span> @ViewBag.AddInfo 😔 </h2>
+                }
+            }
+        </div>
+        <form asp-action="Edit" asp-route-redirect="@ViewData["redirect"]" class="m-2">
+            <input asp-for="Id" hidden />
+            <div>
+                <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Products used in recipe:</h2>
+                <div class="form-group text-center">
+                    <select id="searchProducts" asp-for="ProductId" asp-items="@(new SelectList(Model.Products,"Id","Name"))">
+                        <option value="0">Select Product</option>
+                    </select>
+                    <input class="btn btn-dark" type="submit" value="Add" asp-route-redirect="@ViewData["redirect"]" asp-action="AddSearchProduct" />
+                </div>
+
+                <div class="d-flex justify-content-center flex-column align-items-center">
+
+                    @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th class="p-1" scope="col" style="width: 24%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0"> Name </p>
+                                        </th>
+                                        <th class="p-1" scope="col" style="width: 16%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0">Calories</p>
+                                        </th>
+                                        <th class="p-1" scope="col" style="width: 16%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0"> TotalFat </p>
+                                        </th>
+                                        <th class="p-1" scope="col" style="width: 16%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0"> Protein </p>
+                                        </th>
+                                        <th class="p-1" scope="col" style="width: 16%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0">Carbohydrate</p>
+                                        </th>
+                                        <th class="p-1" scope="col" style="width: 6%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0"> Verified</p>
+                                        </th>
+                                        <th class="p-1" scope="col" style="width: 6%">
+                                            <p class="font-dancing-script font-size-md text-dark m-0"> Remove</p>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CurrentProducts)
+                                    {
+                                        <tr>
+                                            <td class="font-weight-bold">
+                                                @Html.DisplayFor(model => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.Calories)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.TotalFat)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.Protein)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.Carbohydrate)
+                                            </td>
+                                            <td>
+                                                @if (item.Verified == true)
+                                                {
+                                                    <span class="iconify text-success" data-icon="akar-icons:circle-check-fill" data-width="26" data-height="26"></span>
+                                                }
+
+                                                else
+                                                {
+                                                    <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <input typeof="text" class="btn btn-danger text-center m-0 p-0" style="height:26px; width:26px;" type="submit" asp-route-itemId="@item.Id" value="x" asp-route-redirect="@ViewData["redirect"]" asp-action="RemoveSearchProduct" />
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
 
-        <div>
-            <div class="row">
-                <div class="col-12 col-sm-6  d-flex flex-column ">
-                    <div class="d-flex flex-column justify-content-center">
-                        <div class="my-2">
-                            <h5>Meal name:</h5>
-                            <div class="form-group">
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                                <input asp-for="Name" class="form-control" rows="3" cols="80" style="resize: none;" />
+            <div>
+                <div class="row">
+                    <div class="col-12 col-sm-6  d-flex flex-column ">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="my-2">
+                                <h5>Meal name:</h5>
+                                <div class="form-group">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                    <input asp-for="Name" class="form-control" rows="3" cols="80" style="resize: none;" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex my-2">
-                            <h5 class="mr-2  ">Verified:</h5>
-                            <div>
-                                <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                            <div class="d-flex my-2">
+                                <h5 class="mr-2  ">Verified:</h5>
+                                <div>
+                                    <span class="iconify text-danger" data-icon="akar-icons:circle-x-fill" data-width="26" data-height="26"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="my-2">
-                            <h5>Difficulty:</h5>
-                            <div class="form-group">
-                                <span asp-validation-for="Difficulty" class="text-danger"></span>
-                                <input asp-for="Difficulty" class="form-control" rows="3" cols="80" style="resize: none;" />
+                            <div class="my-2">
+                                <h5>Difficulty:</h5>
+                                <div class="form-group">
+                                    <span asp-validation-for="Difficulty" class="text-danger"></span>
+                                    <input asp-for="Difficulty" class="form-control" rows="3" cols="80" style="resize: none;" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="my-2">
-                            <h5 class="m-0">Total Nutritional values:</h5>
-                            <ul>
-                                <li>
-                                    <p class="m-0 border-dark">Total Calories: @Model.CalculateTotalCalories()</p>
-                                </li>
+                            <div class="my-2">
+                                <h5 class="m-0">Total Nutritional values:</h5>
+                                <ul>
+                                    <li>
+                                        <p class="m-0 border-dark">Total Calories: @Model.CalculateTotalCalories()</p>
+                                    </li>
 
-                            </ul>
-                        </div>
-                        <div class="my-2">
-                            <h5 class="m-0">Cooking time:</h5>
-                            <div class="form-group">
-                                <span asp-validation-for="CookingTime" class="text-danger"></span>
-                                <input asp-for="CookingTime" class="form-control" rows="3" cols="80" style="resize: none;" />
+                                </ul>
                             </div>
-                        </div>
+                            <div class="my-2">
+                                <h5 class="m-0">Cooking time:</h5>
+                                <div class="form-group">
+                                    <span asp-validation-for="CookingTime" class="text-danger"></span>
+                                    <input asp-for="CookingTime" class="form-control" rows="3" cols="80" style="resize: none;" />
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-12 col-md-6 d-flex justify-content-center align-items-center ">
-                    <span class="iconify w-100 h-100" data-icon="ic:round-photo-size-select-large"></span>
-                </div>
-                <div class="p-3 w-100">
-                    <h5 class="m-0">Short description:</h5>
-                    <div class="form-group ">
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                        <textarea asp-for="Description" class=" form-control w-100" rows="2" style="resize: none;"></textarea>
+                    <div class="col-12 col-md-6 d-flex justify-content-center align-items-center  ">
+                        <div class="meals_background border rounded w-100 h-75 shadow" style="min-height:300px; min-width:300px"></div>
+                    </div>
+                    <div class="p-3 w-100">
+                        <h5 class="m-0">Short description:</h5>
+                        <div class="form-group ">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <textarea asp-for="Description" class=" form-control w-100" rows="2" style="resize: none;"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="my-4">
-            <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Cooking recipe:</h2>
-            <article>
-                <div class="form-group">
-                    <div class="col-2 text-center">
-                        <span asp-validation-for="CookingDescription" class="text-danger"></span>
+            <div class="my-4">
+                <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Cooking recipe:</h2>
+                <article>
+                    <div class="form-group">
+                        <div class="col-2 text-center">
+                            <span asp-validation-for="CookingDescription" class="text-danger"></span>
+                        </div>
+                        <textarea asp-for="CookingDescription" class="form-control" rows="5" style="resize: none;"></textarea>
                     </div>
-                    <textarea asp-for="CookingDescription" class="form-control" rows="5" style="resize: none;"></textarea>
-                </div>
-            </article>
+                </article>
+            </div>
+
+
+
+
+
+            <div class="my-4">
+                <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Nutritional values:</h2>
+                <ul>
+                    <li>
+                        Total Calories: @Model.CalculateTotalCalories()
+                    </li>
+                    <li>
+                        Total Fat: @Model.CalculateTotalFat()
+                    </li>
+                    <li>
+                        Total Protein: @Model.CalculateTotalProtein()
+                    </li>
+                    <li>
+                        Total Carbohydrate: @Model.CalculateTotalCarbohydrate()
+                    </li>
+
+                </ul>
+            </div>
+            <div class="form-group form-inline justify-content-center  ">
+                <input type="submit" class="btn btn-dark" value="Update Meal" />
+            </div>
+        </form>
+        <div class="">
+            <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
+                <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
+                Back to List
+                <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>
+            </a>
         </div>
-
-
-
-
-
-        <div class="my-4">
-            <h2 class="font-dancing-script"><span class="iconify" data-icon="ci:dot-03-m"></span>Nutritional values:</h2>
-            <ul>
-                <li>
-                    Total Calories: @Model.CalculateTotalCalories()
-                </li>
-                <li>
-                    Total Fat: @Model.CalculateTotalFat()
-                </li>
-                <li>
-                    Total Protein: @Model.CalculateTotalProtein()
-                </li>
-                <li>
-                    Total Carbohydrate: @Model.CalculateTotalCarbohydrate()
-                </li>
-
-            </ul>
-        </div>
-        <div class="form-group form-inline justify-content-center  ">
-            <input type="submit" class="btn btn-dark" value="Update Meal" />
-        </div>
-    </form>
-    <div class="">
-        <a class="font-dancing-script font-size-md text-dark d-flex justify-content-center align-items-center" asp-action="Index">
-            <span class="iconify m-2" data-icon="ion:arrow-back-circle"></span>
-            Back to List
-            <span class="iconify m-2" data-icon="fluent:clipboard-bullet-list-ltr-20-filled"></span>
-        </a>
     </div>
-
 </section>
 
 

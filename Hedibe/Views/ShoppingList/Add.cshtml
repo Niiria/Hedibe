@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "AddShoppingList";
 }
-<section class="py-3 shopping_list_background flex-grow-1">
+<section class="py-3 leafs_background flex-grow-1">
     <div class="container">
         <div class="text-center mb-3">
             <h1 class="font-dancing-script d-flex align-items-center justify-content-center"> Add your own shopping list! 📋</h1>
@@ -48,7 +48,7 @@
                 <div class="d-flex justify-content-center flex-column align-items-center">
                     @if (Model.CurrentProducts is not null && Model.CurrentProducts.Count > 0)
                     {
-                        <div class="table-responsive table-dark background_darken rounded-lg">
+                        <div class="table-responsive rounded-lg">
                             <table class="table text-center ">
                                 <thead>
                                     <tr>

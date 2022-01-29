@@ -74,7 +74,7 @@ namespace Hedibe.Controllers
                 if (_userContextService.IsUserLoggedIn())
                 {
                     if (_userContextService.GetRole() == "admin")
-                        return RedirectToAction("Dashboard", "Panel");
+                        return RedirectToAction("VerifyProducts", "Panel");
 
                     if (_userContextService.GetRole() == "user")
                         return RedirectToAction("Index", "Products");
@@ -150,7 +150,7 @@ namespace Hedibe.Controllers
                 return RedirectToAction("Index", "Products");
 
             if (loginUser.Role.Name == "Admin" || loginUser.Role.Name == "Mod")
-                return RedirectToAction("Dashboard", "Panel");
+                return RedirectToAction("VerifyProducts", "Panel");
 
             return View(model);
         }

@@ -26,7 +26,7 @@
                         @if (_userContextService.GetRole() == "Admin" || _userContextService.GetRole() == "Mod")
                         {
                             <li>
-                                <a class="nav-link text-dark d-flex align-items-center" asp-area="" asp-controller="Panel" asp-action="Dashboard">
+                                <a class="nav-link text-dark d-flex align-items-center" asp-area="" asp-controller="Panel" asp-action="VerifyProducts">
                                     <span class="iconify" data-icon="clarity:dashboard-solid"></span>
                                     Dashboard
                                 </a>
@@ -62,8 +62,6 @@
                                 @_userContextService.GetUsername()
                             </button>
                             <div class="dropdown-menu  background-light_pink" aria-labelledby="dropdownMenuButton">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Theme</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Help</a>
                                 <a class="nav-link text-dark d-flex align-items-center justify-content-center m-auto " asp-area="" asp-controller="Account" asp-action="Logout">
                                     Logout
                                     <span class="iconify" data-icon="ri:logout-box-r-line"></span>

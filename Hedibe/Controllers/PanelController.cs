@@ -26,14 +26,6 @@ namespace Hedibe.Controllers
         private static SearchEngineHelper searchHelper = new();
         private static List<Product> MealProducts = new();
 
-        public IActionResult Dashboard()
-        {
-            if(_userContextService.GrantAccessToRoles("Admin", "Moderator"))
-                return View();
-
-            return NotFound();
-        }
-
         public IActionResult VerifyProducts(int page = 1)
         {
             List<Product> productsTable = new();

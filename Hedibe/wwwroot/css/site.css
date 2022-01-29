@@ -166,13 +166,19 @@
 
 .products_background {
     background-color: white;
-    background-image: url(../assets/Leafs_opac_BG.jpg);
+    background-image: url(../assets/Products_template.png);
     background-size: cover;
 }
 
 .meals_background {
-    background-color:white;
-    background-image: url(../assets/Table_opac_BG.jpg);
+    background-color: white;
+    background-image: url(../assets/Meals_template.png);
+    background-size: cover;
+}
+
+.leafs_background {
+    background-color: white;
+    background-image: url(../assets/Leafs_background.png);
     background-size: cover;
 }
 
